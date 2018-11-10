@@ -20,7 +20,7 @@ version: '3'
 
 services:  
   rspamd:  
-    image: neomediatech/rspamd-honey-alpine-neo:latest  
+    image: neomediatech/rspamd-honey-alpine:latest  
     hostname: rspamd-honey  
 ```
 Save on a file and then run:  
