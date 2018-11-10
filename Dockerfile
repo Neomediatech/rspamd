@@ -13,6 +13,6 @@ RUN mkdir /run/rspamd
 
 COPY conf/ /etc/rspamd
 COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
 CMD ["/start.sh"]
-
