@@ -1,0 +1,11 @@
+antispam:
+  build: .
+  environment:
+    PASSWORD: 'apassword'
+  volume_driver: local
+  volumes:
+    - "filter:/var/lib/rspamd"
+  ports:
+    - 11334:11334
+    - 11333:11333
+
