@@ -1,4 +1,4 @@
-# Dockerized Rspamd in Alpine
+# Dockerized Rspamd on Alpine
 Dockerized version of rspamd, based on Alpine Linux.
 
 ## Usage
