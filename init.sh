@@ -11,6 +11,8 @@ password = "${PASSWORD}";
 enable_password = "${PASSWORD}";
 EOF
 
+mkdir -p /var/lib/rspamd/dynamic
+chown rspamd:rspamd /var/lib/rspamd/dynamic
 
 rspamd -i
 tail -f /var/log/rspamd/rspamd.log
