@@ -1,7 +1,7 @@
 in `docker-compose.yml` mount a volume to override configuration files with your own, eg: 
 ```
    volumes:
-     - /srv/data/docker/rspamd-conf:/var/lib/rspamd
+     - /srv/data/docker/rspamd-conf/local.d:/etc/rspamd/local.d
 ```
 ### docker-compose.yml sample file:
 ```
@@ -16,7 +16,7 @@ services:
     image: neomediatech/rspamd-alpine:latest
     hostname: rspamd
     volumes:
-      - /srv/data/docker/rspamd-conf:/var/lib/rspamd
+      - /srv/data/docker/rspamd-conf/local.d:/etc/rspamd/local.d
       - rspamd_data:/var/lib/rspamd
     environment:
       << : *common-vars
