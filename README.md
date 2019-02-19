@@ -45,14 +45,41 @@ x-environment: &common-vars
     TZ: Europe/Rome
 
 services:
-  rspamd:
-    image: neomediatech/rspamd-alpine:latest
-    hostname: rspamd
+  clamav:
+    image: neomediatech/clamav-alpine:latest
+    hostname: clamav
+    volumes:
+      - clamav_defs:/var/lib/clamav
     environment:
       << : *common-vars
+
+  rspamd:
+    image: neomediatech/rspamd-alpine
+    hostname: rspamd
     volumes:
-      - /srv/data/docker/rspamd-conf/local.d:/etc/rspamd/local.d
       - rspamd_data:/var/lib/rspamd
+    environment:
+      << : *common-vars
+    depends_on:
+      - redis
+
+  dcc:
+    image: neomediatech/dcc:latest
+    hostname: dcc
+    environment:
+      << : *common-vars
+
+  razor:
+    image: neomediatech/razor:latest
+    hostname: razor
+    environment:
+      << : *common-vars
+
+  pyzor:
+    image: neomediatech/pyzor:latest
+    hostname: pyzor
+    environment:
+      << : *common-vars
 
   redis:
     image: redis:alpine
@@ -62,20 +89,19 @@ services:
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
       - redis_db:/data
-  
-  clamav:
-    image: neomediatech/clamav-alpine:latest
-    hostname: clamav
-    environment:
-      << : *common-vars
-    volumes:
-      - clamav_defs:/var/lib/clamav
 
-  dcc:
-    image: neomediatech/dcc:latest
-    hostname: dcc
-    environment:
-      << : *common-vars
+volumes:
+  common_data:
+    driver: local
+  webmail_app:
+    driver: local
+  clamav_defs:
+    driver: local
+  redis_db:
+    driver: local
+  rspamd_data:
+    driver: local
+
 
 
 ```
