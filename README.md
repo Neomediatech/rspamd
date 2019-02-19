@@ -70,4 +70,12 @@ services:
       << : *common-vars
     volumes:
       - clamav_defs:/var/lib/clamav
+
+  dcc:
+    image: neomediatech/dcc:latest
+    hostname: dcc
+    environment:
+      << : *common-vars
+
+
 ```
