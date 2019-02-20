@@ -102,6 +102,4 @@ volumes:
   rspamd_data:
     driver: local
 
-
-
 ```
