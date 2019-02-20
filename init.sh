@@ -41,8 +41,7 @@ fi
 
 LOGFILE="/var/log/rspamd/rspamd.log"
 
-mkdir -p /var/lib/rspamd/dynamic /var/log/rspamd
-chown rspamd:rspamd /var/lib/rspamd/dynamic
+mkdir -p /var/log/rspamd
 if [ ! -f $LOGFILE ]; then
     touch $LOGFILE
     chown rspamd:rspamd $LOGFILE
