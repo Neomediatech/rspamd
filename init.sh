@@ -1,15 +1,43 @@
-#!/bin/sh
+#!/bin/bash
+
+PWCLEAR="$(echo {A..Z} {a..z} {0..9} {0..9} '@ # % ^ ( ) _ + = - [ ] { } . ?' | tr ' ' "\n" | shuf | xargs | tr -d ' ' | cut -b 1-12)"
+PWCRYPT="$(rspamadm pw -e -p $PWCLEAR)"
 
 SECURE_IP=${SECURE_IP:-"127.0.0.1"}
-PASSWORD=${PASSWORD:-"SomeSecurePassword"}
-ENABLE_PASSWORD=${ENABLE_PASSWORD:-$PASSWORD}
+PASSWORD=${PASSWORD:-"$PWCRYPT"}
+#ENABLE_PASSWORD=${ENABLE_PASSWORD:-$PASSWORD}
 
+if [ ! -f /etc/rspamd/local.d/worker-controller.inc ]; then
 cat << EOF > /etc/rspamd/local.d/worker-controller.inc
 bind_socket = "0.0.0.0:11334";
 secure_ip = "${SECURE_IP}";
 password = "${PASSWORD}";
-enable_password = "${PASSWORD}";
+#enable_password = "${PASSWORD}";
 EOF
+        echo " "
+        echo " "
+        echo "      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+	echo " "
+        echo "      THE PASSWORD TO ACCESS THE WEB UI IS:  $PWCLEAR"
+        echo " "
+        echo "      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        echo " "
+        echo " "
+else
+	echo " "
+	echo " "
+	echo "      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+	echo "      IF YOU DIDN'T SET '\$PASSWORD' VARIABLE"
+	echo "      OR IF YOU DON'T KNOW WHAT I'M SAYING"
+	echo "      AND YOU DON'T KNOW THE PASSWORD TO ACCESS"
+    echo "      THE WEB UI, THEN ENTER THE CONTAINER AND"
+	echo "      DELETE THE FILE /etc/rspamd/local.d/worker-controller.inc"
+	echo "      THEN RESTART THE CONTAINER AND SHOW THE CONSOLE LOGS"
+	echo "      THE PASSWORD WILL BE PUT ON THE SCREEN"
+	echo "      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+	echo " "
+	echo " "
+fi
 
 LOGFILE="/var/log/rspamd/rspamd.log"
 
