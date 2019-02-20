@@ -18,12 +18,12 @@ worker "fuzzy" {
 }
 
 razor {
-    host = 127.0.0.1;
+    host = razor;
     port = 9192;
 }
 
 pyzor {
-    host = 127.0.0.1;
+    host = pyzor;
     port = 5953;
 }
 
