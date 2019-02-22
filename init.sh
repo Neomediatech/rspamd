@@ -47,12 +47,8 @@ if [ ! -f $LOGFILE ]; then
     chown rspamd:rspamd $LOGFILE
 fi
 
-if [ -d /var/lib/rspamd/dynamic ]; then
-  rmdir /var/lib/rspamd/dynamic
-fi
-
-if [ ! -f /var/lib/rspamd/dynamic ]; then
-  touch /var/lib/rspamd/dynamic && chmod 666 /var/lib/rspamd/dynamic 
+if [ ! -d /var/lib/rspamd/dynamic ]; then
+  mkdir /var/lib/rspamd/dynamic && chmod 777 /var/lib/rspamd/dynamic 
 fi
 
 rspamd -i
