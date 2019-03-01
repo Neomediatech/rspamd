@@ -54,5 +54,16 @@ if [ ! -f /var/lib/rspamd/dynamic ]; then
   touch /var/lib/rspamd/dynamic && chmod 666 /var/lib/rspamd/dynamic 
 fi
 
+if [ -n "$WAITFOR" ]; then
+	for SERVICE in $WAITFOR; do
+		echo -n "Waiting for $SERVICE..."
+		until ping $SERVICE -c1 >/dev/null; do
+			sleep 1
+			echo -n "..."
+		done
+		echo "OK";
+	done
+fi
+
 rspamd -i
 tail -f /var/log/rspamd/rspamd.log 
