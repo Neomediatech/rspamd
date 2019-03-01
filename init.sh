@@ -54,5 +54,5 @@ if [ ! -f /var/lib/rspamd/dynamic ]; then
   touch /var/lib/rspamd/dynamic && chmod 666 /var/lib/rspamd/dynamic 
 fi
 
-rspamd -i
-tail -f /var/log/rspamd/rspamd.log 
+tail -f /var/log/rspamd/rspamd.log &
+rspamd -i -f
