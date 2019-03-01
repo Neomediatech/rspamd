@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.9
 
 LABEL maintainer="docker-dario@neomediatech.it"
 
@@ -11,4 +11,5 @@ COPY conf/ /etc/rspamd
 COPY init.sh /init.sh
 RUN chmod +x /init.sh
 
+ENTRYPOINT ["tini","-g"]
 CMD ["/init.sh"]
