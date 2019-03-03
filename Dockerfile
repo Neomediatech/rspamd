@@ -11,4 +11,5 @@ COPY conf/ /etc/rspamd
 COPY init.sh /init.sh
 RUN chmod +x /init.sh
 
-CMD ["/init.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["tini","--","rspamd","-i","-f"]
