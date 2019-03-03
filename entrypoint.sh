@@ -54,30 +54,45 @@ if [ ! -f /var/lib/rspamd/dynamic ]; then
   touch /var/lib/rspamd/dynamic && chmod 666 /var/lib/rspamd/dynamic 
 fi
 
-WAITFOR="ciccio:clamav pluto:rspamd"
+# Variable WAITFOR set as a space separated series of comma separated values
+# i.e.: "my_clamav:clamav:3310
+# 3rd parameter (port) can be omitted for default ports
 check_service() {
   until eval $1 ; do
     sleep 1
     echo -n "..."
   done
-  echo "OK"
+  echo -n "OK"
 }
 if [ -n "$WAITFOR" ]; then
-  for SERVICE in $WAITFOR; do
-    NAME=${SERVICE%:*}
-    CHECK=${SERVICE#*:}
-    if [ -z "$NAME" -o -z "$CHECK" ]; then
+  for CHECK in $WAITFOR; do
+    IFS=':' read -a SERVICE <<< "$CHECK"
+    # while array: ${SERVICE[*]}
+    NAME="${SERVICE[0]}"
+    SRV="${SERVICE[1]}"
+    PORT="${SERVICE[2]}"
+    if [ -z "$NAME" -o -z "$SRV" ]; then
       continue
     fi
-    echo -n "Checking for $NAME..."
-    case "$CHECK" in
+    echo -n "Checking for service $SRV on $NAME..."
+    case "$SRV" in
       "clamav")
-        check_service 'echo PING | nc -w 5 $NAME 3310 2>/dev/null'
+        check_service 'echo PING | nc -w 5 $NAME $PORT 2>/dev/null'
         ;;
       "rspamd")
-        check_service "ping -c1 $NAME 2>/dev/null"
+        check_service 'ping -c1 $NAME 1>/dev/null 2>/dev/null'
+        ;;
+      "redis")
+        if [ -n "$PORT" ]; then
+          PORT="-p $PORT"
+        fi
+        check_service 'timeout -t 2 redis-cli -h $NAME $PORT PING'
+        ;;
+      *)
+        echo -n "WARNING: service unknown..."
         ;;
     esac
+    echo " "
   done
 fi
 
