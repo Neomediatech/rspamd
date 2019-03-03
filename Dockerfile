@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.9
 
 LABEL maintainer="docker-dario@neomediatech.it"
 
@@ -8,8 +8,8 @@ RUN apk update; apk upgrade ; apk add --no-cache tzdata; cp /usr/share/zoneinfo/
     mkdir /run/rspamd
 
 COPY conf/ /etc/rspamd
-COPY init.sh /init.sh
-RUN chmod +x /init.sh
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["tini","--","rspamd","-i","-f"]
