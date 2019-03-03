@@ -88,7 +88,7 @@ if [ -n "$WAITFOR" ]; then
         check_service 'timeout -t 2 redis-cli -h $NAME -p $PORT PING'
         ;;
       *)
-        echo -n "WARNING: service unknown..."
+        check_service 'ping -c1 $NAME 1>/dev/null 2>/dev/null'
         ;;
     esac
     echo " "
