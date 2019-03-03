@@ -84,7 +84,7 @@ if [ -n "$WAITFOR" ]; then
         check_service 'ping -c1 $NAME 1>/dev/null 2>/dev/null'
         ;;
       "redis")
-        PORT=${PORT:-6380}
+        PORT=${PORT:-6379}
         check_service 'timeout -t 2 redis-cli -h $NAME -p $PORT PING'
         ;;
       *)
