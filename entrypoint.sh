@@ -54,6 +54,33 @@ if [ ! -f /var/lib/rspamd/dynamic ]; then
   touch /var/lib/rspamd/dynamic && chmod 666 /var/lib/rspamd/dynamic 
 fi
 
+WAITFOR="ciccio:clamav pluto:rspamd"
+check_service() {
+  until eval $1 ; do
+    sleep 1
+    echo -n "..."
+  done
+  echo "OK"
+}
+if [ -n "$WAITFOR" ]; then
+  for SERVICE in $WAITFOR; do
+    NAME=${SERVICE%:*}
+    CHECK=${SERVICE#*:}
+    if [ -z "$NAME" -o -z "$CHECK" ]; then
+      continue
+    fi
+    echo -n "Checking for $NAME..."
+    case "$CHECK" in
+      "clamav")
+        check_service 'echo PING | nc -w 5 $NAME 3310 2>/dev/null'
+        ;;
+      "rspamd")
+        check_service "ping -c1 $NAME 2>/dev/null"
+        ;;
+    esac
+  done
+fi
+
 exec tail -f /var/log/rspamd/rspamd.log &
 #rspamd -i -f
 exec "$@"
