@@ -77,16 +77,15 @@ if [ -n "$WAITFOR" ]; then
     echo -n "Checking for service $SRV on $NAME..."
     case "$SRV" in
       "clamav")
+        PORT=${PORT:-3310}
         check_service 'echo PING | nc -w 5 $NAME $PORT 2>/dev/null'
         ;;
       "rspamd")
         check_service 'ping -c1 $NAME 1>/dev/null 2>/dev/null'
         ;;
       "redis")
-        if [ -n "$PORT" ]; then
-          PORT="-p $PORT"
-        fi
-        check_service 'timeout -t 2 redis-cli -h $NAME $PORT PING'
+        PORT=${PORT:-6380}
+        check_service 'timeout -t 2 redis-cli -h $NAME -p $PORT PING'
         ;;
       *)
         echo -n "WARNING: service unknown..."
