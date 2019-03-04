@@ -95,6 +95,6 @@ if [ -n "$WAITFOR" ]; then
   done
 fi
 
-exec tail -f /var/log/rspamd/rspamd.log &
+exec tail -f $LOGFILE &
 #rspamd -i -f
 exec "$@"
