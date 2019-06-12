@@ -3,7 +3,7 @@ Dockerized version of rspamd, based on Ubuntu.
 
 ## Usage
 You can run this container with this command:  
-`docker run -d --name rspamd-alpine neomediatech/rspamd-ubuntu`  
+`docker run -d --name rspamd-ubuntu neomediatech/rspamd-ubuntu`  
 
 Logs are written inside the container, in /var/log/rspamd/, and on stdout. You can see realtime logs running this command:  
 `docker logs -f rspamd-ubuntu`  
@@ -54,7 +54,7 @@ services:
       << : *common-vars
 
   rspamd:
-    image: neomediatech/rspamd-ubuntu
+    image: neomediatech/rspamd-ubuntu:latest
     hostname: rspamd
     volumes:
       - rspamd_data:/var/lib/rspamd
