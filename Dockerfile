@@ -1,6 +1,12 @@
 FROM ubuntu:18.04
 
-LABEL maintainer="docker-dario@neomediatech.it"
+ENV RSPAMD_VERSION=1.9.4
+
+LABEL maintainer="docker-dario@neomediatech.it" \ 
+      org.label-schema.version=$EXIM__VERSION \
+      org.label-schema.vcs-type=Git \
+      org.label-schema.vcs-url=https://github.com/Neomediatech/rspamd-ubuntu \
+      org.label-schema.maintainer=Neomediatech
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Rome
