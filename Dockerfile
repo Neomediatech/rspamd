@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM neomediatech/ubuntu-base
 
 ENV VERSION=2.2-1~bionic \
     DEBIAN_FRONTEND=noninteractive \
