@@ -19,9 +19,7 @@ RUN apt-get update && apt-get -y dist-upgrade && \
     echo "deb-src [arch=amd64] http://rspamd.com/apt-stable/ $CODENAME main" >> /etc/apt/sources.list.d/rspamd.list && \
     apt-get update && \
     apt-get --no-install-recommends install -y rspamd && \
-    rm -rf /var/lib/apt/lists/* && \
-    echo 'bind_socket = "*:11334";' > /etc/rspamd/override.d/worker-controller.inc && \
-    echo 'pidfile = false;' > /etc/rspamd/override.d/options.inc
+    rm -rf /var/lib/apt/lists/* 
 
 COPY conf/ /etc/rspamd
 COPY entrypoint.sh /entrypoint.sh
