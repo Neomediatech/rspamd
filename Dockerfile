@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-ENV VERSION=1.9.4 \
+ENV VERSION=2.2-1~bionic \
     DEBIAN_FRONTEND=noninteractive \
     TZ=Europe/Rome \
     SERVICE=exim-ubuntu
