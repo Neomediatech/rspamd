@@ -20,7 +20,6 @@ RUN apt-get update && apt-get -y dist-upgrade && \
     apt-get update && \
     apt-get --no-install-recommends install -y rspamd && \
     rm -rf /var/lib/apt/lists/* && \
-    echo 'bind_socket = "*:11334";' > /etc/rspamd/override.d/worker-controller.inc && \
     echo 'pidfile = false;' > /etc/rspamd/override.d/options.inc
 
 COPY conf/ /etc/rspamd
