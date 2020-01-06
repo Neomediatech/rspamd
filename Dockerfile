@@ -1,4 +1,4 @@
-FROM neomediatech/ubuntu-base
+FROM neomediatech/ubuntu-base:latest
 
 ENV VERSION=2.2-1~bionic \
     DEBIAN_FRONTEND=noninteractive \
