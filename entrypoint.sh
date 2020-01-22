@@ -27,6 +27,14 @@ for DIR in $CUSTOM_CONF_DIRS; do
   fi
 done
 
+# Check for custom rspamd.conf config
+GLOBAL_CUSTOM_CONF_FILE="$CUSTOM_CONF_BASE_DIR/local.d/rspamd.conf.local"
+if [ -f $GLOBAL_CUSTOM_CONF_FILE ]; then
+  echo "Add custom config file rspamd.conf.local"
+  rm -f /etc/rspamd/rspamd.conf.local
+  ln -sf $CUSTOM_CONF_BASE_DIR/local.d/rspamd.conf.local /etc/rspamd/
+fi
+
 if [ ! -f /etc/rspamd/local.d/worker-controller.inc ]; then
 cat << EOF > /etc/rspamd/local.d/worker-controller.inc
 bind_socket = "0.0.0.0:11334";
