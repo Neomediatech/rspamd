@@ -1,15 +1,12 @@
 FROM neomediatech/ubuntu-base:latest
 
 ENV VERSION=2.2-1~bionic \
-    DEBIAN_FRONTEND=noninteractive \
-    TZ=Europe/Rome \
-    SERVICE=rspamd \
-    OS=ubuntu
+    SERVICE=rspamd
 
 LABEL maintainer="docker-dario@neomediatech.it" \ 
       org.label-schema.version=$VERSION \
       org.label-schema.vcs-type=Git \
-      org.label-schema.vcs-url=https://github.com/Neomediatech/${SERVICE}-${OS} \
+      org.label-schema.vcs-url=https://github.com/Neomediatech/${SERVICE} \
       org.label-schema.maintainer=Neomediatech
 
 RUN apt-get update && apt-get -y dist-upgrade && \
