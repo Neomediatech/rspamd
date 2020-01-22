@@ -7,6 +7,22 @@ SECURE_IP=${SECURE_IP:-"127.0.0.1"}
 PASSWORD=${PASSWORD:-"$PWCRYPT"}
 #ENABLE_PASSWORD=${ENABLE_PASSWORD:-$PASSWORD}
 
+# Check custom configuration files
+CUSTOM_CONF_DIR="/data/local.d"
+if [ -d "$CUSTOM_CONF_DIR" ]; then
+  echo "Checking for custom configuration files in ${CUSTOM_CONF_DIR}..."
+  find "$CUSTOM_CONF_DIR" -maxdepth 1 -type f -name '[!.]*.*' -printf "%f\n"| while read CONFIG_FILE ; do
+  actions=$(ls -l /data/action.d | egrep '^-' | awk '{print $9}')
+  for action in ${actions}; do
+    if [ -f "/etc/rspamd/local.d/${CONFIG_FILE}" ]; then
+      echo "  WARNING: ${CONFIG_FILE} already exists and will be overriden"
+      rm -f "/etc/rspamd/local.d/${CONFIG_FILE}"
+    fi
+    echo "  Add custom config file ${CONFIG_FILE}..."
+    ln -sf "/data/local.d/${action}" "/etc/rspamd/local.d/"
+  done
+fi
+
 if [ ! -f /etc/rspamd/local.d/worker-controller.inc ]; then
 cat << EOF > /etc/rspamd/local.d/worker-controller.inc
 bind_socket = "0.0.0.0:11334";
