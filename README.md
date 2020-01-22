@@ -105,6 +105,12 @@ volumes:
 ```
 
 ## Custom files & options
+- create a passowrd to access web interface:  
+`docker run --rm -it neomediatech/rspamd`
+put the encrypted password in your __local.d/worker-controller.inc__ :
+`sed -i 's/^\(#\)\{0,1\}\( \)\{0,\}password.*/password = "your_encrypted_password";/' local.d/worker-controller.inc`  
+or simply edit __local.d/worker-controller.inc__ and change or add the line  
+`"password = your_encrypted_password";`
 - bind mount a folder in /data/local.d container to have custom configuration files, for ex: `-v /myfolder:/data/local.d`
 
 
