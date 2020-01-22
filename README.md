@@ -103,3 +103,11 @@ volumes:
     driver: local
 
 ```
+
+## Custom files & options
+- bind mount a folder in /data/local.d container to have custom configuration files, for ex: `-v /myfolder:/data/local.d`
+
+
+| Variable | Default | Description |
+| -------- | ------- | ----------- |
+| tbd | tbd | to be done |
