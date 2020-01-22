@@ -8,18 +8,23 @@ PASSWORD=${PASSWORD:-"$PWCRYPT"}
 #ENABLE_PASSWORD=${ENABLE_PASSWORD:-$PASSWORD}
 
 # Check custom configuration files
-CUSTOM_CONF_DIR="/data/local.d"
-if [ -d "$CUSTOM_CONF_DIR" ]; then
-  echo "Checking for custom configuration files in ${CUSTOM_CONF_DIR}..."
-  find "$CUSTOM_CONF_DIR" -maxdepth 1 -type f -name '[!.]*.*' -printf "%f\n"| while read CONFIG_FILE ; do
-    if [ -f "/etc/rspamd/local.d/${CONFIG_FILE}" ]; then
-      echo "  WARNING: ${CONFIG_FILE} already exists and will be overriden"
-      rm -f "/etc/rspamd/local.d/${CONFIG_FILE}"
-    fi
-    echo "  Add custom config file ${CONFIG_FILE}..."
-    ln -sf "/data/local.d/${CONFIG_FILE}" "/etc/rspamd/local.d/"
-  done
-fi
+CUSTOM_CONF_BASE_DIR="/data"
+CUSTOM_CONF_DIRS="local.d plugins.d"
+for DIR in $CUSTOM_CONF_DIRS; do
+  CUSTOM_CONF_DIR="$CUSTOM_CONF_BASE_DIR/$DIR"
+  if [ -d "$CUSTOM_CONF_DIR" ]; then
+    echo "Checking for custom configuration files in ${CUSTOM_CONF_DIR}..."
+    find "$CUSTOM_CONF_DIR" -maxdepth 1 -type f -name '[!.]*.*' -printf "%f\n"| while read CONFIG_FILE ; do
+      if [ -f "/etc/rspamd/${DIR}/${CONFIG_FILE}" ]; then
+        echo "  WARNING: ${CONFIG_FILE} already exists and will be overriden"
+        rm -f "/etc/rspamd/${DIR}/${CONFIG_FILE}"
+      fi
+      echo "  Add custom config file ${CONFIG_FILE}..."
+      [ ! -d "/etc/rspamd/${DIR}/" ] && mkdir -p "/etc/rspamd/${DIR}/"
+      ln -sf "/data/${DIR}/${CONFIG_FILE}" "/etc/rspamd/${DIR}/"
+    done
+  fi
+done
 
 if [ ! -f /etc/rspamd/local.d/worker-controller.inc ]; then
 cat << EOF > /etc/rspamd/local.d/worker-controller.inc
