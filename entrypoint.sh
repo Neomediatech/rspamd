@@ -55,15 +55,13 @@ fi
 
 LOGFILE="/var/log/rspamd/rspamd.log"
 
-mkdir -p /var/log/rspamd
-if [ ! -f $LOGFILE ]; then
-    touch $LOGFILE
-    chown _rspamd:_rspamd $LOGFILE
-fi
+[ ! -d /var/log/rspamd ] && mkdir -p /var/log/rspamd
+[ ! -d /run/rspamd ]     && mkdir -p /run/rspamd && chown _rspamd:_rspamd /run/rspamd
 
-if [ -d /var/lib/rspamd/dynamic ]; then
-    rmdir /var/lib/rspamd/dynamic
-fi
+[ ! -f $LOGFILE ] && touch $LOGFILE && chown _rspamd:_rspamd $LOGFILE
+
+[ -d /var/lib/rspamd/dynamic ] && rmdir /var/lib/rspamd/dynamic
+
 if [ ! -f /var/lib/rspamd/dynamic ]; then
     touch /var/lib/rspamd/dynamic && chmod 666 /var/lib/rspamd/dynamic 
 fi
@@ -109,6 +107,6 @@ if [ -n "$WAITFOR" ]; then
   done
 fi
 
-exec tail -f $LOGFILE &
+exec tail -F $LOGFILE &
 #rspamd -i -f
 exec "$@"
