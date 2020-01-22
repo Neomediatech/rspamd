@@ -1,5 +1,11 @@
-# Dockerized Rspamd on Ubuntu 18.04
+# Dockerized Rspamd on Ubuntu
 Dockerized version of rspamd, based on Ubuntu.
+
+## ToDo
+- LOG ROTATION.  
+`mv rspamd.log rspamd.log.1 && touch rspamd.log && chmod 666 rspamd.log`   
+(inside the container) `kill -SIGUSR1 1`  
+Thanks also to `tail -F `, commands above do their the job. Maybe there are better solutions (where?)
 
 ## Usage
 You can run this container with this command:  
