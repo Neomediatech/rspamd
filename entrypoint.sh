@@ -60,12 +60,6 @@ LOGFILE="/var/log/rspamd/rspamd.log"
 
 [ ! -f $LOGFILE ] && touch $LOGFILE && chown _rspamd:_rspamd $LOGFILE
 
-[ -d /var/lib/rspamd/dynamic ] && rmdir /var/lib/rspamd/dynamic
-
-if [ ! -f /var/lib/rspamd/dynamic ]; then
-    touch /var/lib/rspamd/dynamic && chmod 666 /var/lib/rspamd/dynamic 
-fi
-
 # Variable WAITFOR set as a space separated series of comma separated values
 # i.e.: "my_clamav:clamav:3310
 # 3rd parameter (port) can be omitted for default ports
