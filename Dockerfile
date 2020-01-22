@@ -13,7 +13,8 @@ LABEL maintainer="docker-dario@neomediatech.it" \
       org.label-schema.maintainer=Neomediatech
 
 RUN apt-get update && apt-get -y dist-upgrade && \
-    apt-get install -y lsb-release wget gnupg && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates lsb-release wget gnupg && \
     CODENAME=`lsb_release -c -s` && \
     wget -O- https://rspamd.com/apt-stable/gpg.key | apt-key add - && \
     echo "deb [arch=amd64] http://rspamd.com/apt-stable/ $CODENAME main" > /etc/apt/sources.list.d/rspamd.list && \
