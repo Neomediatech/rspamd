@@ -17,7 +17,7 @@ if [ -d "$CUSTOM_CONF_DIR" ]; then
       rm -f "/etc/rspamd/local.d/${CONFIG_FILE}"
     fi
     echo "  Add custom config file ${CONFIG_FILE}..."
-    ln -sf "/data/local.d/${action}" "/etc/rspamd/local.d/"
+    ln -sf "/data/local.d/${CONFIG_FILE}" "/etc/rspamd/local.d/"
   done
 fi
 
