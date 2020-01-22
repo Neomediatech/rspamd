@@ -21,6 +21,7 @@ for DIR in $CUSTOM_CONF_DIRS; do
       fi
       echo "  Add custom config file ${CONFIG_FILE}..."
       [ ! -d "/etc/rspamd/${DIR}/" ] && mkdir -p "/etc/rspamd/${DIR}/"
+      [ "${CONFIG_FILE##*.}" = "map" -o "${CONFIG_FILE##*.}" = "local" ] && chmod 666 "/data/${DIR}/${CONFIG_FILE}"
       ln -sf "/data/${DIR}/${CONFIG_FILE}" "/etc/rspamd/${DIR}/"
     done
   fi
