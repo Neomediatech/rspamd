@@ -9,10 +9,10 @@ Thanks also to `tail -F `, commands above do their the job. Maybe there are bett
 
 ## Usage
 You can run this container with this command:  
-`docker run -d --name rspamd-ubuntu neomediatech/rspamd-ubuntu`  
+`docker run -d --name rspamd neomediatech/rspamd`  
 
 Logs are written inside the container, in /var/log/rspamd/, and on stdout. You can see realtime logs running this command:  
-`docker logs -f rspamd-ubuntu`  
+`docker logs -f rspamd`  
 `CTRL c` to stop seeing logs.  
 
 If you want to map logs outside the container you can add:  
@@ -26,7 +26,7 @@ version: '3'
 
 services:  
   rspamd:  
-    image: neomediatech/rspamd-ubuntu:latest  
+    image: neomediatech/rspamd:latest  
     hostname: rspamd  
 ```
 Save on a file and then run:  
@@ -52,7 +52,7 @@ x-environment: &common-vars
 
 services:
   clamav:
-    image: neomediatech/clamav-alpine:latest
+    image: neomediatech/clamav:latest
     hostname: clamav
     volumes:
       - clamav_defs:/var/lib/clamav
@@ -60,7 +60,7 @@ services:
       << : *common-vars
 
   rspamd:
-    image: neomediatech/rspamd-ubuntu:latest
+    image: neomediatech/rspamd:latest
     hostname: rspamd
     volumes:
       - rspamd_data:/var/lib/rspamd
