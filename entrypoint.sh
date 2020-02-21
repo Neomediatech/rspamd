@@ -58,7 +58,7 @@ else
 	echo "      IF YOU DIDN'T SET '\$PASSWORD' VARIABLE"
 	echo "      OR IF YOU DON'T KNOW WHAT I'M SAYING"
 	echo "      AND YOU DON'T KNOW THE PASSWORD TO ACCESS"
-    echo "      THE WEB UI, THEN ENTER THE CONTAINER AND"
+	echo "      THE WEB UI, THEN ENTER THE CONTAINER AND"
 	echo "      DELETE THE FILE /etc/rspamd/local.d/worker-controller.inc"
 	echo "      THEN RESTART THE CONTAINER AND SHOW THE CONSOLE LOGS"
 	echo "      THE PASSWORD WILL BE PUT ON THE SCREEN"
