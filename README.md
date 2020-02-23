@@ -213,3 +213,9 @@ or simply edit __local.d/worker-controller.inc__ and change or add the line
 ├── worker-normal.inc
 └── worker-proxy.inc
 ```
+## Useful infos
+- `options.inc` contains reference for rspamd statistics (seen in UI)  
+stats_file = "${DBDIR}/stats.ucl";  
+DBDIR is (as default) /var/lib/rspamd  
+  
+- `rspamc counters` shows stats for every symbol. Useful to know what symbols are involved  
