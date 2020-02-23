@@ -118,6 +118,7 @@ put the encrypted password in your __local.d/worker-controller.inc__ :
 or simply edit __local.d/worker-controller.inc__ and change or add the line  
 `"password = your_encrypted_password";`
 - bind mount a folder in /data/local.d container to have custom configuration files, for ex: `-v /myfolder:/data/local.d`
+- .map and .local files found on /data directory will be "chmoded" to 666. By using rspamd web UI you can modify this files (lists and maps of ip, domains, mail addresses, etc...)  
 
 
 | Variable | Default | Description |
