@@ -123,3 +123,93 @@ or simply edit __local.d/worker-controller.inc__ and change or add the line
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
 | tbd | tbd | to be done |
+
+## Original rspamd tree (from Ubuntu 18.04 install) for reference
+```
+/etc/rspamd/
+├── actions.conf
+├── cgp.inc
+├── common.conf
+├── composites.conf
+├── groups.conf
+├── local.d
+├── logging.inc
+├── maps.d
+│   ├── dmarc_whitelist.inc
+│   ├── maillist.inc
+│   ├── mid.inc
+│   ├── mime_types.inc
+│   ├── redirectors.inc
+│   ├── spf_dkim_whitelist.inc
+│   └── surbl-whitelist.inc
+├── metrics.conf
+├── modules.conf
+├── modules.d
+│   ├── antivirus.conf
+│   ├── arc.conf
+│   ├── asn.conf
+│   ├── chartable.conf
+│   ├── clickhouse.conf
+│   ├── dcc.conf
+│   ├── dkim.conf
+│   ├── dkim_signing.conf
+│   ├── dmarc.conf
+│   ├── elastic.conf
+│   ├── emails.conf
+│   ├── external_services.conf
+│   ├── force_actions.conf
+│   ├── forged_recipients.conf
+│   ├── fuzzy_check.conf
+│   ├── greylist.conf
+│   ├── hfilter.conf
+│   ├── history_redis.conf
+│   ├── maillist.conf
+│   ├── metadata_exporter.conf
+│   ├── metric_exporter.conf
+│   ├── mid.conf
+│   ├── milter_headers.conf
+│   ├── mime_types.conf
+│   ├── multimap.conf
+│   ├── mx_check.conf
+│   ├── neural.conf
+│   ├── once_received.conf
+│   ├── p0f.conf
+│   ├── phishing.conf
+│   ├── ratelimit.conf
+│   ├── rbl.conf
+│   ├── redis.conf
+│   ├── regexp.conf
+│   ├── replies.conf
+│   ├── reputation.conf
+│   ├── rspamd_update.conf
+│   ├── spamassassin.conf
+│   ├── spamtrap.conf
+│   ├── spf.conf
+│   ├── surbl.conf
+│   ├── trie.conf
+│   ├── url_redirector.conf
+│   └── whitelist.conf
+├── options.inc
+├── override.d
+├── rspamd.conf
+├── scores.d
+│   ├── content_group.conf
+│   ├── fuzzy_group.conf
+│   ├── headers_group.conf
+│   ├── hfilter_group.conf
+│   ├── mime_types_group.conf
+│   ├── mua_group.conf
+│   ├── phishing_group.conf
+│   ├── policies_group.conf
+│   ├── rbl_group.conf
+│   ├── statistics_group.conf
+│   ├── subject_group.conf
+│   ├── surbl_group.conf
+│   └── whitelist_group.conf
+├── settings.conf
+├── statistic.conf
+├── worker-controller.inc
+├── worker-fuzzy.inc
+├── worker-normal.inc
+└── worker-proxy.inc
+```
