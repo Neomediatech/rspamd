@@ -71,6 +71,7 @@ LOGFILE="/var/log/rspamd/rspamd.log"
 
 [ ! -d /var/log/rspamd ] && mkdir -p /var/log/rspamd
 [ ! -d /run/rspamd ]     && mkdir -p /run/rspamd && chown _rspamd:_rspamd /run/rspamd
+[ -d /var/lib/rspamd ]   && chown _rspamd:_rspamd /var/lib/rspamd
 
 [ ! -f $LOGFILE ] && touch $LOGFILE && chown _rspamd:_rspamd $LOGFILE
 
