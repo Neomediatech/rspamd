@@ -1,0 +1,5 @@
+# single email address match
+# /^test@example\.test$/
+
+# entire domain match
+# /^.*@yourspamtrapdomain\.tld$/
