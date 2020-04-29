@@ -1,6 +1,6 @@
-FROM neomediatech/ubuntu-base:latest
+FROM neomediatech/ubuntu-base:18.04
 
-ENV VERSION=2.3-1~bionic \
+ENV VERSION=2.5-156~bionic \
     SERVICE=rspamd
 
 LABEL maintainer="docker-dario@neomediatech.it" \ 
