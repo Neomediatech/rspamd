@@ -9,7 +9,7 @@ PASSWORD=${PASSWORD:-"$PWCRYPT"}
 
 # Check custom configuration files
 CUSTOM_CONF_BASE_DIR="/data"
-CUSTOM_CONF_DIRS="local.d local.d/maps.d override.d plugins.d"
+CUSTOM_CONF_DIRS="local.d override.d plugins.d"
 for DIR in $CUSTOM_CONF_DIRS; do
   CUSTOM_CONF_DIR="$CUSTOM_CONF_BASE_DIR/$DIR"
   if [ -d "$CUSTOM_CONF_DIR" ]; then
@@ -26,6 +26,11 @@ for DIR in $CUSTOM_CONF_DIRS; do
     done
   fi
 done
+
+if [ -d "$CUSTOM_CONF_BASE_DIR/local.d/maps.d" ]; then
+  mv "/etc/rspamd/local.d/maps.d" "/etc/rspamd/local.d/maps.d.orig"
+  ln -s "$CUSTOM_CONF_BASE_DIR/local.d/maps.d" "/etc/rspamd/local.d/maps.d"
+fi
 
 # Check for custom rspamd.conf config
 GLOBAL_CUSTOM_CONF_FILE="$CUSTOM_CONF_BASE_DIR/local.d/rspamd.conf.local"
