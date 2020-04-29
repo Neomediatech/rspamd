@@ -30,6 +30,8 @@ done
 if [ -d "$CUSTOM_CONF_BASE_DIR/local.d/maps.d" ]; then
   mv "/etc/rspamd/local.d/maps.d" "/etc/rspamd/local.d/maps.d.orig"
   ln -s "$CUSTOM_CONF_BASE_DIR/local.d/maps.d" "/etc/rspamd/local.d/maps.d"
+  chown _rspamd "$CUSTOM_CONF_BASE_DIR/local.d/maps.d"
+  chmod 666 "$CUSTOM_CONF_BASE_DIR/local.d/maps.d/*"
 fi
 
 # Check for custom rspamd.conf config
