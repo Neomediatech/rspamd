@@ -75,9 +75,9 @@ services:
     environment:
       << : *common-vars
 
-  razor:
-    image: neomediatech/razor:latest
-    hostname: razor
+  razorfy:
+    image: neomediatech/razorfy:latest
+    hostname: razorfy
     environment:
       << : *common-vars
 
