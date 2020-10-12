@@ -1,7 +1,8 @@
-razor {
-    host = razor;
-    port = 9192;
-}
+# use neomediatech/razorfy-docker instead
+# razor {
+#    host = razor;
+#    port = 9192;
+# }
 
 pyzor {
     host = pyzor;
