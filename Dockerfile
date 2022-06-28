@@ -1,6 +1,6 @@
 FROM neomediatech/ubuntu-base:20.04
 
-ENV VERSION=3.1-1~focal \
+ENV VERSION=3.2-1~focal \
     SERVICE=rspamd
 
 LABEL maintainer="docker-dario@neomediatech.it" \ 
