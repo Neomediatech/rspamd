@@ -19,7 +19,10 @@ RUN apt-get update && apt-get -y dist-upgrade && \
     apt-get update && \
     apt-get --no-install-recommends install -y rspamd && \
     rm -rf /var/lib/apt/lists/* && \
-    echo 'pidfile = false;' > /etc/rspamd/override.d/options.inc
+    echo 'pidfile = false;' > /etc/rspamd/override.d/options.inc && \
+    mkdir -p /srv/scripts && \
+    wget -O /srv/scripts/logrotate.sh https://raw.githubusercontent.com/Neomediatech/assets/main/scripts/logrotate.sh && \
+    chmod +x /srv/scripts/logrotate.sh
 
 COPY conf/ /etc/rspamd
 COPY entrypoint.sh /entrypoint.sh

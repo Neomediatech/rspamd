@@ -82,6 +82,11 @@ LOGFILE="/var/log/rspamd/rspamd.log"
 
 [ ! -f $LOGFILE ] && touch $LOGFILE && chown _rspamd:_rspamd $LOGFILE
 
+if [ -f /srv/scripts/logrotate.sh ]; then
+  chmod +x /srv/scripts/logrotate.sh
+  /srv/scripts/logrotate.sh /var/log/rspamd/
+fi
+
 cmd="/dockerize"
 if [ -x "$cmd" ]; then
   checks=""
