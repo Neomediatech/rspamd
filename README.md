@@ -3,9 +3,17 @@ Dockerized version of rspamd, based on Ubuntu.
 
 ## ToDo
 - LOG ROTATION.  
-`mv rspamd.log rspamd.log.1 && touch rspamd.log && chmod 666 rspamd.log`   
+~~`mv rspamd.log rspamd.log.1 && touch rspamd.log && chmod 666 rspamd.log`   
 (inside the container) `kill -SIGUSR1 1`  
-Thanks also to `tail -F `, commands above do their the job. Maybe there are better solutions (where?)
+Thanks also to `tail -F `, commands above do their the job. Maybe there are better solutions (where?)~~
+UPDATE:  
+In /srv/scripts/logrotate.sh there's a script to rotate logs. It run on entrypoint.sh, prior to start rspamd.  
+Default settings are:
+```
+LOG_SIZE=10485760 # after this size (in byte) the log is rotated
+DAYS_2_ROTATE=7   # but only after these days has been passed
+RETENTION=52      # how many logs to keep?
+```
 
 ## Usage
 You can run this container with this command:  
@@ -125,9 +133,9 @@ or simply edit __local.d/worker-controller.inc__ and change or add the line
 | -------- | ------- | ----------- |
 | tbd | tbd | to be done |
 
-## Original rspamd tree (from Ubuntu 18.04 install) for reference
+## Original rspamd tree, from Ubuntu 20.04 install and rspamd 3.4, for reference
 ```
-/etc/rspamd/
+/etc/rspamd
 ├── actions.conf
 ├── cgp.inc
 ├── common.conf
@@ -149,6 +157,8 @@ or simply edit __local.d/worker-controller.inc__ and change or add the line
 │   ├── antivirus.conf
 │   ├── arc.conf
 │   ├── asn.conf
+│   ├── aws_s3.conf
+│   ├── bimi.conf
 │   ├── chartable.conf
 │   ├── clickhouse.conf
 │   ├── dcc.conf
@@ -157,6 +167,7 @@ or simply edit __local.d/worker-controller.inc__ and change or add the line
 │   ├── dmarc.conf
 │   ├── elastic.conf
 │   ├── emails.conf
+│   ├── external_relay.conf
 │   ├── external_services.conf
 │   ├── force_actions.conf
 │   ├── forged_recipients.conf
@@ -164,6 +175,7 @@ or simply edit __local.d/worker-controller.inc__ and change or add the line
 │   ├── greylist.conf
 │   ├── hfilter.conf
 │   ├── history_redis.conf
+│   ├── http_headers.conf
 │   ├── maillist.conf
 │   ├── metadata_exporter.conf
 │   ├── metric_exporter.conf
@@ -213,6 +225,8 @@ or simply edit __local.d/worker-controller.inc__ and change or add the line
 ├── worker-fuzzy.inc
 ├── worker-normal.inc
 └── worker-proxy.inc
+
+5 directories, 84 files
 ```
 ## Useful infos
 - `options.inc` contains reference for rspamd statistics (seen in UI)  

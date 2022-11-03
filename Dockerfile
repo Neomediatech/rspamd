@@ -1,10 +1,10 @@
 FROM neomediatech/ubuntu-base:20.04
 
-ENV VERSION=3.2-1~focal \
+ENV RSPAMD_VERSION=3.4-1~focal \
     SERVICE=rspamd
 
 LABEL maintainer="docker-dario@neomediatech.it" \ 
-      org.label-schema.version=$VERSION \
+      org.label-schema.version=$RSPAMD_VERSION \
       org.label-schema.vcs-type=Git \
       org.label-schema.vcs-url=https://github.com/Neomediatech/${SERVICE} \
       org.label-schema.maintainer=Neomediatech
