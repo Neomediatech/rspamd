@@ -133,7 +133,7 @@ or simply edit __local.d/worker-controller.inc__ and change or add the line
 | -------- | ------- | ----------- |
 | tbd | tbd | to be done |
 
-## Original rspamd tree, from Ubuntu 20.04 install and rspamd 3.4, for reference
+## Original rspamd tree, from Ubuntu 22.04 install and Rspamd 3.6, for reference
 ```
 /etc/rspamd
 ├── actions.conf
@@ -141,6 +141,7 @@ or simply edit __local.d/worker-controller.inc__ and change or add the line
 ├── common.conf
 ├── composites.conf
 ├── groups.conf
+├── lang_detection.inc
 ├── local.d
 ├── logging.inc
 ├── maps.d
@@ -226,8 +227,9 @@ or simply edit __local.d/worker-controller.inc__ and change or add the line
 ├── worker-normal.inc
 └── worker-proxy.inc
 
-5 directories, 84 files
+5 directories, 85 files
 ```
+
 ## Useful infos
 - `options.inc` contains reference for rspamd statistics (seen in UI)  
 stats_file = "${DBDIR}/stats.ucl";  
