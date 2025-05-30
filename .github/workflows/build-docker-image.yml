@@ -41,7 +41,7 @@ jobs:
           INPUT_VERSIONS=$(printf "%s" "${{ inputs.versions_to_build }}" | tr -d '\n' | xargs)
 
           # Lista completa di tutte le versioni disponibili
-          ALL_VERSIONS="latest, 3.8, 3.7, 3.6, 3.5"
+          ALL_VERSIONS="latest,3.8,3.7,3.6,3.5"
 
           if [ -z "$INPUT_VERSIONS" ]; then
             SELECTED_VERSIONS="$ALL_VERSIONS"
