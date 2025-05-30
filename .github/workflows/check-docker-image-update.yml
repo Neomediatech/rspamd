@@ -1,0 +1,126 @@
+name: Check Base Image Updates and Rebuild
+
+on:
+  #schedule:
+    # Esegui ogni giorno alle 04:00 UTC per controllare gli aggiornamenti.
+  #  - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  check-and-rebuild:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        #type: [apache, fpm]
+        version: [latest]
+      max-parallel: 1
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Determine Base Image and Dockerfile Info 
+        id: base_image_info
+        run: |
+          echo "Current working directory $(pwd)"
+          echo "Listing contents of current directory"
+          ls -F
+          #echo "Listing contents of ${{ matrix.type }}/:" # Controlla se la cartella type esiste
+          #ls -F ${{ matrix.type }}/ || true # '|| true' evita che il comando fallisca se la directory non esiste
+
+          DOCKERFILE_FILENAME="Dockerfile.${{ matrix.version }}"
+          #DOCKER_CONTEXT_DIR="${{ matrix.type }}"
+          #DOCKERFILE_PATH="${DOCKER_CONTEXT_DIR}/${DOCKERFILE_FILENAME}"
+          DOCKERFILE_PATH="${DOCKERFILE_FILENAME}"
+
+          # Verifica che il Dockerfile esista
+          if [ ! -f "${DOCKERFILE_PATH}" ]; then
+            echo "Error: Dockerfile not found at ${DOCKERFILE_PATH}"
+            exit 1
+          fi
+
+          # Legge il contenuto del Dockerfile specifico.
+          DOCKERFILE_CONTENT=$(cat "${DOCKERFILE_PATH}")
+          # Estrae la prima riga che inizia con "FROM".
+          BASE_IMAGE_LINE=$(echo "${DOCKERFILE_CONTENT}" | grep -m 1 "^FROM")
+          
+          # Verifica che ci sia una riga FROM
+          if [ -z "${BASE_IMAGE_LINE}" ]; then
+            echo "Error: No FROM instruction found in ${DOCKERFILE_PATH}"
+            exit 1
+          fi
+
+          # Estrae solo il nome dell'immagine base (es. "ubuntu:24.04" o "node:lts-alpine").
+          BASE_IMAGE=$(echo "${BASE_IMAGE_LINE}" | sed -E 's/FROM ([^ ]+)( AS .*)?/\1/')
+          
+          echo "Determined base image for ${DOCKERFILE_PATH}: ${BASE_IMAGE}"
+          echo "base_image=${BASE_IMAGE}" >> $GITHUB_OUTPUT
+          echo "dockerfile_name=${DOCKERFILE_FILENAME}" >> $GITHUB_OUTPUT
+          echo "docker_context_dir=${DOCKER_CONTEXT_DIR}" >> $GITHUB_OUTPUT
+          echo "docker_full_tag=${{ matrix.version }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
+          #echo "docker_full_tag=${{ matrix.version }}-${{ matrix.type }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
+        if: |
+          ${{ inputs.check_version == matrix.version }}
+          #${{ inputs.check_version == matrix.version && inputs.check_type == matrix.type }}
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+        # Esegui il login solo se l'immagine base è stata determinata (e quindi il job non è stato saltato).
+        if: ${{ steps.base_image_info.outputs.base_image != '' }}
+
+      - name: Get Lowercase Repository Name
+        id: get_lowercase_repo # Assegniamo un ID a questo step per poterne usare l'output
+        run: |
+          # Ottiene il nome del repository e lo converte in minuscolo
+          LOWER_REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "Lowercased repository name: $LOWER_REPO"
+          # Esporta il valore in minuscolo come output dello step
+          echo "repo_lower=$LOWER_REPO" >> $GITHUB_OUTPUT
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if base image is updated
+        id: check
+        uses: neomediatech/docker-image-update-checker@main
+        with:
+          # La tua immagine su GHCR (quella che costruisci e pushi).
+          image: 'ghcr.io/${{ steps.get_lowercase_repo.outputs.repo_lower }}:${{ steps.base_image_info.outputs.docker_full_tag }}'
+          # L'immagine base da monitorare, ottenuta dinamicamente dallo step precedente.
+          base-image: ${{ steps.base_image_info.outputs.base_image }}
+          # Se l'immagine base è privata su Docker Hub o per evitare rate limits, puoi aggiungere:
+          # username: ${{ secrets.DOCKERHUB_USERNAME }}
+          # password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          verbose: true # optional
+        # Esegui questo step solo se l'immagine base è stata determinata.
+        if: ${{ steps.base_image_info.outputs.base_image != '' }}
+
+      - name: Rebuild and Push if base image needs update
+        # Esegui questo step solo se l'azione 'check' ha indicato che l'immagine base è aggiornata
+        # e se l'immagine base è stata determinata correttamente.
+        if: steps.check.outputs.needs-updating == 'true' && steps.base_image_info.outputs.base_image != ''
+        uses: ./.github/workflows/build-docker-image.yml 
+        with:
+          dockerfile: ${{ steps.base_image_info.outputs.dockerfile_name }} # Passa il nome del Dockerfile
+          dockerdir: ${{ steps.base_image_info.outputs.docker_context_dir }} # Passa la directory del contesto
+          dockertag: ${{ steps.base_image_info.outputs.docker_full_tag }} # Passa il tag completo
+
+      - name: No update needed
+        # Esegui questo step se l'immagine base non è stata aggiornata.
+        if: steps.check.outputs.needs-updating == 'false' && steps.base_image_info.outputs.base_image != ''
+        run: |
+          echo "L'immagine base per la versione ${{ matrix.version }} non è stata aggiornata, nessuna azione necessaria."
+          #echo "L'immagine base per la versione ${{ matrix.version }}-${{ matrix.type }} non è stata aggiornata, nessuna azione necessaria."
+

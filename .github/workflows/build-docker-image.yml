@@ -1,0 +1,104 @@
+name: Build and Scan Docker Image
+
+on:
+  push:
+    paths:
+      - 'Dockerfile.*'
+      - 'entrypoint.sh'
+      - 'unbound.conf'
+  pull_request:
+    paths:
+      - 'Dockerfile.latest'
+      - 'entrypoint.sh'
+      - 'unbound.conf'
+  workflow_dispatch: # Permette di avviare il workflow manualmente dalla UI di GitHub
+    inputs:
+      versions_to_build:
+        description: 'Inserisci una versione specifica da compilare (es. 22.04 o latest o più elementi separati da virgola). Lascia vuoto per compilare tutte le versioni.'
+        required: false
+        type: string
+        default: '' # Valore di default vuoto per compilare tutte le versioni
+
+jobs:
+  # Job per generare dinamicamente la matrice
+  generate_matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.set_versions.outputs.versions }}
+    steps:
+      - name: Set Versions for Matrix
+        id: set_versions
+        run: |
+          set -euo pipefail # Fail immediately if any command fails or variable is unset
+
+          # Check if jq is available (it should be on ubuntu-latest)
+          if ! command -v jq &> /dev/null
+          then
+              echo "Error: jq is not installed. It is required for this step."
+              exit 1
+          fi
+
+          INPUT_VERSIONS=$(printf "%s" "${{ inputs.versions_to_build }}" | tr -d '\n' | xargs)
+
+          # Lista completa di tutte le versioni disponibili
+          ALL_VERSIONS="latest, 3.8, 3.7, 3.6, 3.5"
+
+          if [ -z "$INPUT_VERSIONS" ]; then
+            SELECTED_VERSIONS="$ALL_VERSIONS"
+            echo "Building all versions: $SELECTED_VERSIONS"
+          else
+            SELECTED_VERSIONS="$INPUT_VERSIONS"
+            echo "Building selected versions: $SELECTED_VERSIONS"
+          fi
+
+          # Converte la stringa separata da virgole in un array JSON
+          # e imposta l'output 'versions'.
+          # `map(select(length > 0))` filtra gli elementi vuoti (es. se la stringa fosse "v1,,v2")
+          # `-c` per output compatto, senza nuove righe.
+          JSON_VERSIONS=$(jq -c -R -s 'split(",") | map(select(length > 0) | gsub("\\n"; ""))' <<< "$SELECTED_VERSIONS")
+
+          # Scrive la variabile di output nel file $GITHUB_OUTPUT usando printf per precisione
+          printf "versions=%s\n" "$JSON_VERSIONS" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+  build-and-push:
+    secrets: inherit
+    needs: generate_matrix
+    strategy:
+      matrix:
+        #version: [latest, 24.04, 22.04, 20.04, 18.04]
+        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
+      max-parallel: 1
+      # non posso parallellizzare il processo perché l'upload delle immagini va in errore con "permission denied"
+
+    uses: Neomediatech/gh-workflows/.github/workflows/build-and-push-docker-image.yml@main
+    with:
+      dockerfile: "Dockerfile.${{ matrix.version }}"
+      dockerdir: "."
+      dockertag: ${{ matrix.version }}
+
+  scan-docker-image:
+    secrets: inherit
+    strategy:
+      matrix:
+        #version: [latest, 24.04, 22.04, 20.04, 18.04]
+        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
+    needs: [generate_matrix, build-and-push]
+    uses: Neomediatech/gh-workflows/.github/workflows/scan-docker-image.yml@main
+    with:
+      dockertag: ${{ matrix.version }}
+
+  push-report-to-repo:
+    strategy:
+      matrix:
+        #version: [latest, 24.04, 22.04, 20.04, 18.04]
+        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
+      max-parallel: 1
+    needs: [generate_matrix, scan-docker-image]
+    secrets: inherit
+    uses: Neomediatech/gh-workflows/.github/workflows/copy-file-to-another-repo.yml@main
+    with:
+      file_id: ${{ needs.scan-docker-image.outputs.uploaded-file-id }}
+      filename: ${{ needs.scan-docker-image.outputs.file_to_copy_output }}
+      dockertag: ${{ matrix.version }}
+
