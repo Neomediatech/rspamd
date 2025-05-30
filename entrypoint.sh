@@ -101,4 +101,4 @@ fi
 
 exec tail -F $LOGFILE &
 #rspamd -i -f
-exec "$@"
+exec gosu _rspamd "$@"
