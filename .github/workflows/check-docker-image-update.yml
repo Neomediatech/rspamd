@@ -34,7 +34,7 @@ jobs:
           fi
 
           # Estrae la prima riga che inizia con "FROM".
-          BASE_IMAGE_LINE=$(cat "${DOCKERFILE_NAME} | grep -m 1 "^FROM")
+          BASE_IMAGE_LINE=$(cat "${DOCKERFILE_NAME}" | grep -m 1 "^FROM")
           
           # Verifica che ci sia una riga FROM
           if [ -z "${BASE_IMAGE_LINE}" ]; then
