@@ -49,8 +49,6 @@ jobs:
           echo "base_image=${BASE_IMAGE}" >> $GITHUB_OUTPUT
           echo "dockerfile_name=${DOCKERFILE_NAME}" >> $GITHUB_OUTPUT
           echo "docker_full_tag=${{ matrix.version }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
-        if: |
-          ${{ inputs.check_version == matrix.version }}
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
