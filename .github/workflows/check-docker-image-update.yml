@@ -12,6 +12,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      repo_lower_output: ${{ steps.get_lowercase_repo.outputs.repo_lower }}
+      base_image_output: ${{ steps.base_image_info.outputs.base_image }} # Assicurati di esporre anche questo
 
     strategy:
       matrix:
@@ -84,10 +87,10 @@ jobs:
     uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
     needs: get-infos
     with:
-      image_repo: ${{ needs.get-infos.get_lowercase_repo.outputs.repo_lower }}
+      image_repo: ${{ needs.get-infos.outputs.repo_lower_output }}
       dockertag: ${{ matrix.version }}
-      base_image: ${{ needs.get-infos.base_image_info.outputs.base_image }}
-    if: ${{ needs.get-infos.base_image_info.outputs.base_image != '' }}
+      base_image: ${{ needs.get-infos.outputs.base_image_output }}
+    if: ${{ needs.get-infos.outputs.base_image_output != '' }}
 
   rebuild:
     secrets: inherit
