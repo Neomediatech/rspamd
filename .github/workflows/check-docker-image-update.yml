@@ -84,10 +84,10 @@ jobs:
     uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
     needs: get-infos
     with:
-      image_repo: ${{ needs.get-infos.outputs.repo_lower }}
+      image_repo: ${{ needs.get-infos.get_lowercase_repo.outputs.repo_lower }}
       dockertag: ${{ matrix.version }}
-      base_image: ${{ needs.get-infos.outputs.base_image }}
-    if: ${{ needs.get-infos.outputs.base_image != '' }}
+      base_image: ${{ needs.get-infos.base_image_info.outputs.base_image }}
+    if: ${{ needs.get-infos.base_image_info.outputs.base_image != '' }}
 
   rebuild:
     secrets: inherit
