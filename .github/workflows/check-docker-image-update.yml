@@ -28,7 +28,7 @@ jobs:
           DOCKERFILE_NAME="Dockerfile.${{ matrix.version }}"
 
           # Verifica che il Dockerfile esista
-          if [ ! -f "${DOCKERFILE_NAMEH}" ]; then
+          if [ ! -f "${DOCKERFILE_NAME}" ]; then
             echo "Error: Dockerfile not found at ${DOCKERFILE_NAME}"
             exit 1
           fi
