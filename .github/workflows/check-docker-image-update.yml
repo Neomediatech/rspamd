@@ -87,7 +87,7 @@ jobs:
     uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
     needs: get-infos
     with:
-      image_repo: ${{ needs.get-infos.outputs.repo_lower_output }}
+      image_repo: ghcr.io/${{ needs.get-infos.outputs.repo_lower_output }}
       dockertag: ${{ matrix.version }}
       base_image: ${{ needs.get-infos.outputs.base_image_output }}
     if: ${{ needs.get-infos.outputs.base_image_output != '' }}
