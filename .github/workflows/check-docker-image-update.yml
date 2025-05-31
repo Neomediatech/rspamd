@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-and-rebuild:
+  get-infos:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -80,31 +80,36 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check if base image is updated
-        id: check
-        uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
-        with:
-          # La tua immagine su GHCR (quella che costruisci e pushi).
-          image: 'ghcr.io/${{ steps.get_lowercase_repo.outputs.repo_lower }}:${{ steps.base_image_info.outputs.docker_full_tag }}'
-          # L'immagine base da monitorare, ottenuta dinamicamente dallo step precedente.
-          base-image: ${{ steps.base_image_info.outputs.base_image }}
-          # Se l'immagine base è privata su Docker Hub o per evitare rate limits, puoi aggiungere:
-          # username: ${{ secrets.DOCKERHUB_USERNAME }}
-          # password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          verbose: true # optional
-        # Esegui questo step solo se l'immagine base è stata determinata.
-        if: ${{ steps.base_image_info.outputs.base_image != '' }}
+  check-update:
+    secrets: inherit
+    strategy:
+      matrix:
+        version: [latest]
+      max-parallel: 1
+    uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
+    needs: get-infos
+    with:
+      image_repo: ${{ needs.get-infos.outputs.repo_lower }}
+      dockertag: ${{ matrix.version }}
+      base_image: ${{ needs.get-infos.outputs.base_image }}
+    if: ${{ needs.get-infos.outputs.base_image != '' }}
 
-      - name: Rebuild and Push if base image needs update
-        # Esegui questo step solo se l'azione 'check' ha indicato che l'immagine base è aggiornata
-        # e se l'immagine base è stata determinata correttamente.
-        if: steps.check.outputs.needs-updating == 'true' && steps.base_image_info.outputs.base_image != ''
-        uses: ./.github/workflows/build-docker-image.yml 
-        with:
-          dockerfile: ${{ steps.base_image_info.outputs.dockerfile_name }} # Passa il nome del Dockerfile
-          dockerdir: ${{ steps.base_image_info.outputs.docker_context_dir }} # Passa la directory del contesto
-          dockertag: ${{ steps.base_image_info.outputs.docker_full_tag }} # Passa il tag completo
+  rebuild:
+    secrets: inherit
+    strategy:
+      matrix:
+        version: [latest]
+      max-parallel: 1
+    uses: ./.github/workflows/build-docker-image.yml 
+    needs: check-update
+    with:
+      dockertag: ${{ matrix.version }}
+    if: ${{ needs.check-update.outputs.needs-updating == 'true' }}
 
+  no-need-message:
+    runs-on: ubuntu-latest
+    needs: rebuild
+    steps:
       - name: No update needed
         # Esegui questo step se l'immagine base non è stata aggiornata.
         if: steps.check.outputs.needs-updating == 'false' && steps.base_image_info.outputs.base_image != ''
