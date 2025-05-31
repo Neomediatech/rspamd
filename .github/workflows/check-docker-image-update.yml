@@ -25,33 +25,30 @@ jobs:
       - name: Determine Base Image and Dockerfile Info 
         id: base_image_info
         run: |
-          DOCKERFILE_FILENAME="Dockerfile.${{ matrix.version }}"
-          DOCKERFILE_PATH="${DOCKERFILE_FILENAME}"
+          DOCKERFILE_NAME="Dockerfile.${{ matrix.version }}"
 
           # Verifica che il Dockerfile esista
-          if [ ! -f "${DOCKERFILE_PATH}" ]; then
-            echo "Error: Dockerfile not found at ${DOCKERFILE_PATH}"
+          if [ ! -f "${DOCKERFILE_NAMEH}" ]; then
+            echo "Error: Dockerfile not found at ${DOCKERFILE_NAME}"
             exit 1
           fi
 
           # Estrae la prima riga che inizia con "FROM".
-          BASE_IMAGE_LINE=$(cat "${DOCKERFILE_PATH} | grep -m 1 "^FROM")
+          BASE_IMAGE_LINE=$(cat "${DOCKERFILE_NAME} | grep -m 1 "^FROM")
           
           # Verifica che ci sia una riga FROM
           if [ -z "${BASE_IMAGE_LINE}" ]; then
-            echo "Error: No FROM instruction found in ${DOCKERFILE_PATH}"
+            echo "Error: No FROM instruction found in ${DOCKERFILE_NAME}"
             exit 1
           fi
 
           # Estrae solo il nome dell'immagine base (es. "ubuntu:24.04" o "node:lts-alpine").
           BASE_IMAGE=$(echo "${BASE_IMAGE_LINE}" | sed -E 's/FROM ([^ ]+)( AS .*)?/\1/')
           
-          echo "Determined base image for ${DOCKERFILE_PATH}: ${BASE_IMAGE}"
+          echo "Determined base image for ${DOCKERFILE_NAME}: ${BASE_IMAGE}"
           echo "base_image=${BASE_IMAGE}" >> $GITHUB_OUTPUT
-          echo "dockerfile_name=${DOCKERFILE_FILENAME}" >> $GITHUB_OUTPUT
-          echo "docker_context_dir=${DOCKER_CONTEXT_DIR}" >> $GITHUB_OUTPUT
+          echo "dockerfile_name=${DOCKERFILE_NAME}" >> $GITHUB_OUTPUT
           echo "docker_full_tag=${{ matrix.version }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
-          #echo "docker_full_tag=${{ matrix.version }}-${{ matrix.type }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
         if: |
           ${{ inputs.check_version == matrix.version }}
 
