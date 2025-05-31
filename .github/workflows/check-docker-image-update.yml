@@ -82,7 +82,7 @@ jobs:
 
       - name: Check if base image is updated
         id: check
-        uses: neomediatech/check-docker-image-update.yml@main
+        uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
         with:
           # La tua immagine su GHCR (quella che costruisci e pushi).
           image: 'ghcr.io/${{ steps.get_lowercase_repo.outputs.repo_lower }}:${{ steps.base_image_info.outputs.docker_full_tag }}'
