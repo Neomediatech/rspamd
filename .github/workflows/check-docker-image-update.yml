@@ -15,7 +15,6 @@ jobs:
 
     strategy:
       matrix:
-        #type: [apache, fpm]
         version: [latest]
       max-parallel: 1
 
@@ -26,15 +25,7 @@ jobs:
       - name: Determine Base Image and Dockerfile Info 
         id: base_image_info
         run: |
-          echo "Current working directory $(pwd)"
-          echo "Listing contents of current directory"
-          ls -F
-          #echo "Listing contents of ${{ matrix.type }}/:" # Controlla se la cartella type esiste
-          #ls -F ${{ matrix.type }}/ || true # '|| true' evita che il comando fallisca se la directory non esiste
-
           DOCKERFILE_FILENAME="Dockerfile.${{ matrix.version }}"
-          #DOCKER_CONTEXT_DIR="${{ matrix.type }}"
-          #DOCKERFILE_PATH="${DOCKER_CONTEXT_DIR}/${DOCKERFILE_FILENAME}"
           DOCKERFILE_PATH="${DOCKERFILE_FILENAME}"
 
           # Verifica che il Dockerfile esista
@@ -43,10 +34,8 @@ jobs:
             exit 1
           fi
 
-          # Legge il contenuto del Dockerfile specifico.
-          DOCKERFILE_CONTENT=$(cat "${DOCKERFILE_PATH}")
           # Estrae la prima riga che inizia con "FROM".
-          BASE_IMAGE_LINE=$(echo "${DOCKERFILE_CONTENT}" | grep -m 1 "^FROM")
+          BASE_IMAGE_LINE=$(cat "${DOCKERFILE_PATH} | grep -m 1 "^FROM")
           
           # Verifica che ci sia una riga FROM
           if [ -z "${BASE_IMAGE_LINE}" ]; then
@@ -65,7 +54,6 @@ jobs:
           #echo "docker_full_tag=${{ matrix.version }}-${{ matrix.type }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
         if: |
           ${{ inputs.check_version == matrix.version }}
-          #${{ inputs.check_version == matrix.version && inputs.check_type == matrix.type }}
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -94,7 +82,7 @@ jobs:
 
       - name: Check if base image is updated
         id: check
-        uses: neomediatech/docker-image-update-checker@main
+        uses: neomediatech/check-docker-image-update.yml@main
         with:
           # La tua immagine su GHCR (quella che costruisci e pushi).
           image: 'ghcr.io/${{ steps.get_lowercase_repo.outputs.repo_lower }}:${{ steps.base_image_info.outputs.docker_full_tag }}'
