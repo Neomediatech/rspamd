@@ -18,6 +18,13 @@ on:
         required: false
         type: string
         default: '' # Valore di default vuoto per compilare tutte le versioni
+  workflow_call: # Permette di riutilizzare il workflow da un altro repo
+    inputs:
+      dockertag:
+        description: 'Tag for the image'
+        required: false
+        type: string
+        default: "latest"
 
 jobs:
   # Job per generare dinamicamente la matrice
