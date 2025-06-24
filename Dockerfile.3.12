@@ -1,0 +1,40 @@
+FROM ghcr.io/rspamd/rspamd-docker:3.12
+
+ENV APP_VERSION=3.x \
+    SERVICE=rspamd
+
+LABEL maintainer="docker-dario@neomediatech.it" \ 
+      org.label-schema.version=$APP_VERSION \
+      org.label-schema.vcs-type=Git \
+      org.label-schema.vcs-url=https://github.com/Neomediatech/${SERVICE} \
+      org.label-schema.maintainer=Neomediatech
+
+USER root
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates wget gosu && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+SHELL ["/bin/bash", "-c"]
+
+RUN echo 'pidfile = false;' > /etc/rspamd/override.d/options.inc && \
+    mkdir -p /srv/scripts && \
+    wget -O /srv/scripts/logrotate.sh https://raw.githubusercontent.com/Neomediatech/assets/main/scripts/logrotate.sh && \
+    chmod +x /srv/scripts/logrotate.sh && \
+    chown -R 11333:11333 /etc/rspamd
+
+COPY conf/ /etc/rspamd
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+
+HEALTHCHECK --interval=30s --timeout=30s --start-period=10s --retries=20 CMD rspamadm control stat |grep uptime|head -1 || ( echo "no uptime, no party\!" && exit 1 )
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+#USER 11333:11333
+CMD [ "/usr/bin/rspamd", "-f" ]
+#CMD [ "/usr/bin/rspamd", "-f", "-u", "_rspamd", "-g", "_rspamd" ]
+
