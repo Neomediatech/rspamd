@@ -1,0 +1,50 @@
+name: Discover Dockerfiles and Build Matrix (paired)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  discover-dockerfiles:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Find Dockerfiles and build paired matrix
+        id: set-matrix
+        run: |
+          files=$(find . -maxdepth 2 -type f -name 'Dockerfile*' | sort)
+          includes=""
+
+          while IFS= read -r file; do
+            dir=$(dirname "$file" | sed 's|^\./||')
+            dockerfile=$(basename "$file")
+            # Evita la root vuota come directory
+            if [[ "$dir" == "." ]]; then
+              dir=""
+            fi
+            includes="${includes}{\"directory\":\"$dir\",\"dockerfile\":\"$dockerfile\"},"
+          done <<< "$files"
+
+          # Rimuove la virgola finale e crea array include
+          includes="[${includes%,}]"
+
+          echo "matrix={\"include\":$includes}" >> $GITHUB_OUTPUT
+
+      - name: Show discovered matrix
+        run: |
+          echo "${{ steps.set-matrix.outputs.matrix }}"
+
+  use-matrix:
+    needs: discover-dockerfiles
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.discover-dockerfiles.outputs.matrix).include }}
+    steps:
+      - name: Print matrix info
+        run: |
+          echo "Directory: ${{ matrix.directory }}"
+          echo "Dockerfile: ${{ matrix.dockerfile }}"
