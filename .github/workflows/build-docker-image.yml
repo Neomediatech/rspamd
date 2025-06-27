@@ -29,7 +29,7 @@ on:
 jobs:
   # Job per generare dinamicamente la matrice
   generate_matrix:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
     outputs:
       versions: ${{ steps.set_versions.outputs.versions }}
     steps:
