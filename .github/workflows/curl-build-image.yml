@@ -1,0 +1,30 @@
+# questo workflow viene chiamato via curl con questa chiamata:
+# curl -X POST \
+#  -H "Accept: application/vnd.github+json" \
+#  -H "Authorization: Bearer __github_api_key__" \
+#  https://api.github.com/repos/Neomediatech/gh-workflows/dispatches \
+#  -d '{
+#    "event_type": "build-image",
+#    "client_payload": {
+#      "var_1": "valore di esempio",
+#      "var_2": "altro valore"
+#    }
+#  }'
+
+name: Build Rspamd Docker Images via curl (draft)
+
+on:
+  repository_dispatch: # Per inviare richieste di compilazione immagini via curl
+    types: [build-image] # ascolta eventi chiamati 'build-image'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build-image:
+    uses: Neomediatech/gh-workflows/.github/workflows/build-docker-image.yml@main
+    secrets: inherit
+    with:
+      base-image: ghcr.io/rspamd/rspamd-docker
