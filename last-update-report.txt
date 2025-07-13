@@ -6,3 +6,4 @@ dom 13 lug 2025, 21:37:24, CEST --- ghcr.io/neomediatech/rspamd:3.6 UPDATED (ima
 dom 13 lug 2025, 21:39:07, CEST --- ghcr.io/neomediatech/rspamd:3.5 UPDATED (image build needed: true)
 dom 13 lug 2025, 21:39:55, CEST --- ghcr.io/neomediatech/rspamd:3.12 UPDATED (image build needed: true)
 dom 13 lug 2025, 21:41:06, CEST --- ghcr.io/neomediatech/rspamd:3.11 UPDATED (image build needed: true)
+dom 13 lug 2025, 21:42:15, CEST --- ghcr.io/neomediatech/rspamd:3.10 UPDATED (image build needed: true)
