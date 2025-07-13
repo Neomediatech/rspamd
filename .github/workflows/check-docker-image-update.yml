@@ -1,117 +1,32 @@
-name: Check Base Image Updates and Rebuild
+name: Check Docker images updates on cron
 
 on:
   #schedule:
     # Esegui ogni giorno alle 04:00 UTC per controllare gli aggiornamenti.
-  #  - cron: '0 4 * * *'
+    #- cron: '0 4 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+  packages: write
+  actions: write
+
 jobs:
-  get-infos:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    outputs:
-      repo_lower_output: ${{ steps.get_lowercase_repo.outputs.repo_lower }}
-      base_image_output: ${{ steps.base_image_info.outputs.base_image }} # Assicurati di esporre anche questo
-
-    strategy:
-      matrix:
-        version: [latest]
-      max-parallel: 1
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Determine Base Image and Dockerfile Info 
-        id: base_image_info
-        run: |
-          DOCKERFILE_NAME="Dockerfile.${{ matrix.version }}"
-
-          # Verifica che il Dockerfile esista
-          if [ ! -f "${DOCKERFILE_NAME}" ]; then
-            echo "Error: Dockerfile not found at ${DOCKERFILE_NAME}"
-            exit 1
-          fi
-
-          # Estrae la prima riga che inizia con "FROM".
-          BASE_IMAGE_LINE=$(cat "${DOCKERFILE_NAME}" | grep -m 1 "^FROM")
-          
-          # Verifica che ci sia una riga FROM
-          if [ -z "${BASE_IMAGE_LINE}" ]; then
-            echo "Error: No FROM instruction found in ${DOCKERFILE_NAME}"
-            exit 1
-          fi
-
-          # Estrae solo il nome dell'immagine base (es. "ubuntu:24.04" o "node:lts-alpine").
-          BASE_IMAGE=$(echo "${BASE_IMAGE_LINE}" | sed -E 's/FROM ([^ ]+)( AS .*)?/\1/')
-          
-          echo "Determined base image for ${DOCKERFILE_NAME}: ${BASE_IMAGE}"
-          echo "base_image=${BASE_IMAGE}" >> $GITHUB_OUTPUT
-          echo "dockerfile_name=${DOCKERFILE_NAME}" >> $GITHUB_OUTPUT
-          echo "docker_full_tag=${{ matrix.version }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-        # Esegui il login solo se l'immagine base è stata determinata (e quindi il job non è stato saltato).
-        if: ${{ steps.base_image_info.outputs.base_image != '' }}
-
-      - name: Get Lowercase Repository Name
-        id: get_lowercase_repo # Assegniamo un ID a questo step per poterne usare l'output
-        run: |
-          # Ottiene il nome del repository e lo converte in minuscolo
-          LOWER_REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          echo "Lowercased repository name: $LOWER_REPO"
-          # Esporta il valore in minuscolo come output dello step
-          echo "repo_lower=$LOWER_REPO" >> $GITHUB_OUTPUT
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-  check-update:
-    secrets: inherit
-    strategy:
-      matrix:
-        version: [latest]
-      max-parallel: 1
-    uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
-    needs: get-infos
+  build-image:
+    uses: Neomediatech/gh-workflows/.github/workflows/build-docker-image-bulk.yml@main
     with:
-      image_repo: ghcr.io/${{ needs.get-infos.outputs.repo_lower_output }}
-      dockertag: ${{ matrix.version }}
-      base_image: ${{ needs.get-infos.outputs.base_image_output }}
-    if: ${{ needs.get-infos.outputs.base_image_output != '' }}
-
-  rebuild:
-    secrets: inherit
-    strategy:
-      matrix:
-        version: [latest]
-      max-parallel: 1
-    uses: ./.github/workflows/build-docker-image.yml 
-    needs: check-update
-    with:
-      dockertag: ${{ matrix.version }}
-    if: ${{ needs.check-update.outputs.needs-updating == 'true' }}
-
-  no-need-message:
-    runs-on: ubuntu-latest
-    needs: rebuild
-    steps:
-      - name: No update needed
-        # Esegui questo step se l'immagine base non è stata aggiornata.
-        if: steps.check.outputs.needs-updating == 'false' && steps.base_image_info.outputs.base_image != ''
-        run: |
-          echo "L'immagine base per la versione ${{ matrix.version }} non è stata aggiornata, nessuna azione necessaria."
-          #echo "L'immagine base per la versione ${{ matrix.version }}-${{ matrix.type }} non è stata aggiornata, nessuna azione necessaria."
+      base-image: ghcr.io/rspamd/rspamd-docker
+      package-name: neomediatech/rspamd
+      derived-image-prefix: ghcr.io/neomediatech/rspamd
+      force-build: "false"
+      update-image: "true"
+      package-to-check: "rspamd"
+      skip-type-from-base-image: "true"
+    secrets:
+      NOTIFY_CMD: ${{ secrets.NOTIFY_CMD }}
+      NOTIFY_UP: ${{ secrets.NOTIFY_UP }}
+      NOTIFY_ENDPOINT: ${{ secrets.NOTIFY_ENDPOINT }}
+      NOTIFY_OPTIONS: ${{ secrets.NOTIFY_OPTIONS }}
+      GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+      API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
 
