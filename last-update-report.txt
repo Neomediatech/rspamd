@@ -1,0 +1,1 @@
+dom 13 lug 2025, 21:30:33, CEST --- ghcr.io/neomediatech/rspamd:latest UPDATED (image build needed: true)
