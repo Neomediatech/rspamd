@@ -99,3 +99,17 @@ Legend:
 - '-': Not scanned
 - '0': Clean (no security findings detected)
 
+-----------------------------------
+dom 13 lug 2025, 21:35:45, CEST --- ghcr.io/neomediatech/rspamd:3.7
+
+Report Summary
+
+┌────────────────────────────────────────────────┬────────┬─────────────────┬─────────┐
+│                     Target                     │  Type  │ Vulnerabilities │ Secrets │
+├────────────────────────────────────────────────┼────────┼─────────────────┼─────────┤
+│ ghcr.io/neomediatech/rspamd:3.7 (ubuntu 22.04) │ ubuntu │        0        │    -    │
+└────────────────────────────────────────────────┴────────┴─────────────────┴─────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
