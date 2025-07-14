@@ -2,3 +2,5 @@
 lun 14 lug 2025, 16:59:58, CEST --- ghcr.io/neomediatech/rspamd:latest NOT SCANNED
 -----------------------------------
 lun 14 lug 2025, 17:00:36, CEST --- ghcr.io/neomediatech/rspamd:3.9 NOT SCANNED
+-----------------------------------
+lun 14 lug 2025, 17:01:08, CEST --- ghcr.io/neomediatech/rspamd:3.8 NOT SCANNED
