@@ -3,3 +3,4 @@ lun 14 lug 2025, 17:00:36, CEST --- ghcr.io/neomediatech/rspamd:3.9 not-needed (
 lun 14 lug 2025, 17:01:08, CEST --- ghcr.io/neomediatech/rspamd:3.8 not-needed (image build needed: false)
 lun 14 lug 2025, 17:01:35, CEST --- ghcr.io/neomediatech/rspamd:3.7 not-needed (image build needed: false)
 lun 14 lug 2025, 17:02:02, CEST --- ghcr.io/neomediatech/rspamd:3.6 not-needed (image build needed: false)
+lun 14 lug 2025, 17:02:29, CEST --- ghcr.io/neomediatech/rspamd:3.5 not-needed (image build needed: false)
