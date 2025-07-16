@@ -12,3 +12,5 @@ Legend:
 - '-': Not scanned
 - '0': Clean (no security findings detected)
 
+-----------------------------------
+mer 16 lug 2025, 16:02:22, CEST --- ghcr.io/neomediatech/rspamd:3.9 NOT SCANNED
