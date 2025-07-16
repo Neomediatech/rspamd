@@ -1,18 +1,14 @@
 -----------------------------------
-lun 14 lug 2025, 16:59:58, CEST --- ghcr.io/neomediatech/rspamd:latest NOT SCANNED
------------------------------------
-lun 14 lug 2025, 17:00:36, CEST --- ghcr.io/neomediatech/rspamd:3.9 NOT SCANNED
------------------------------------
-lun 14 lug 2025, 17:01:08, CEST --- ghcr.io/neomediatech/rspamd:3.8 NOT SCANNED
------------------------------------
-lun 14 lug 2025, 17:01:35, CEST --- ghcr.io/neomediatech/rspamd:3.7 NOT SCANNED
------------------------------------
-lun 14 lug 2025, 17:02:02, CEST --- ghcr.io/neomediatech/rspamd:3.6 NOT SCANNED
------------------------------------
-lun 14 lug 2025, 17:02:29, CEST --- ghcr.io/neomediatech/rspamd:3.5 NOT SCANNED
------------------------------------
-lun 14 lug 2025, 17:02:54, CEST --- ghcr.io/neomediatech/rspamd:3.12 NOT SCANNED
------------------------------------
-lun 14 lug 2025, 17:03:21, CEST --- ghcr.io/neomediatech/rspamd:3.11 NOT SCANNED
------------------------------------
-lun 14 lug 2025, 17:03:46, CEST --- ghcr.io/neomediatech/rspamd:3.10 NOT SCANNED
+mer 16 lug 2025, 16:01:24, CEST --- ghcr.io/neomediatech/rspamd:latest
+
+Report Summary
+
+┌───────────────────────────────────────────────────┬────────┬─────────────────┬─────────┐
+│                      Target                       │  Type  │ Vulnerabilities │ Secrets │
+├───────────────────────────────────────────────────┼────────┼─────────────────┼─────────┤
+│ ghcr.io/neomediatech/rspamd:latest (debian 12.11) │ debian │        0        │    -    │
+└───────────────────────────────────────────────────┴────────┴─────────────────┴─────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
