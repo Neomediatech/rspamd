@@ -30,3 +30,5 @@ jobs:
       NOTIFY_OPTIONS: ${{ secrets.NOTIFY_OPTIONS }}
       GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
       API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
