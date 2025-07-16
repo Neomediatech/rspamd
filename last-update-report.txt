@@ -1,2 +1,3 @@
 mer 16 lug 2025, 16:01:24, CEST --- ghcr.io/neomediatech/rspamd:latest UPDATED (image build needed: true)
 mer 16 lug 2025, 16:02:22, CEST --- ghcr.io/neomediatech/rspamd:3.9 not-needed (image build needed: false)
+mer 16 lug 2025, 16:02:54, CEST --- ghcr.io/neomediatech/rspamd:3.12 not-needed (image build needed: false)
