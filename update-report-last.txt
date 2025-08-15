@@ -1,0 +1,5 @@
+ven 15 ago 2025, 14:50:32, UTC --- ghcr.io/neomediatech/rspamd:3.12 done (image build needed: true)
+ven 15 ago 2025, 14:50:32, UTC --- ghcr.io/neomediatech/rspamd:latest done (image build needed: true)
+ven 15 ago 2025, 14:50:40, UTC --- ghcr.io/neomediatech/rspamd:3.10 done (image build needed: true)
+ven 15 ago 2025, 14:50:55, UTC --- ghcr.io/neomediatech/rspamd:3.9 done (image build needed: true)
+ven 15 ago 2025, 14:50:59, UTC --- ghcr.io/neomediatech/rspamd:3.11 done (image build needed: true)
