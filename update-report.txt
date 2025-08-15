@@ -7,3 +7,4 @@ dom 13 lug 2025, 21:38:27, CEST --- ghcr.io/neomediatech/rspamd:3.5 UPDATED
 dom 13 lug 2025, 21:39:34, CEST --- ghcr.io/neomediatech/rspamd:3.12 UPDATED
 dom 13 lug 2025, 21:40:35, CEST --- ghcr.io/neomediatech/rspamd:3.11 UPDATED
 dom 13 lug 2025, 21:41:45, CEST --- ghcr.io/neomediatech/rspamd:3.10 UPDATED
+mer 16 lug 2025, 16:00:53, CEST --- ghcr.io/neomediatech/rspamd:latest UPDATED

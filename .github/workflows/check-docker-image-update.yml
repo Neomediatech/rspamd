@@ -22,6 +22,7 @@ jobs:
       update-image: "true"
       package-to-check: "rspamd"
       skip-type-from-base-image: "true"
+      image-type: "generic"      
     secrets:
       NOTIFY_CMD: ${{ secrets.NOTIFY_CMD }}
       NOTIFY_UP: ${{ secrets.NOTIFY_UP }}
@@ -29,4 +30,5 @@ jobs:
       NOTIFY_OPTIONS: ${{ secrets.NOTIFY_OPTIONS }}
       GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
       API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
