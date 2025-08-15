@@ -1,13 +1,9 @@
 FROM ghcr.io/rspamd/rspamd-docker:3.11
 
-ENV APP_VERSION=3.x \
-    SERVICE=rspamd
+ENV SERVICE=rspamd
 
-LABEL maintainer="docker-dario@neomediatech.it" \ 
-      org.label-schema.version=$APP_VERSION \
-      org.label-schema.vcs-type=Git \
-      org.label-schema.vcs-url=https://github.com/Neomediatech/${SERVICE} \
-      org.label-schema.maintainer=Neomediatech
+LABEL org.opencontainers.image.source=https://github.com/Neomediatech/${SERVICE} \
+      org.opencontainers.package.name=rspamd
 
 USER root
 
