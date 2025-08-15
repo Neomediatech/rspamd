@@ -5,6 +5,15 @@ on:
     # Esegui ogni giorno alle 04:00 UTC per controllare gli aggiornamenti.
     #- cron: '0 4 * * *'
   workflow_dispatch:
+    inputs:
+      force-build:
+        description: 'Forza la generazione delle immagini?'
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
 
 permissions:
   contents: write
@@ -16,9 +25,7 @@ jobs:
     uses: Neomediatech/gh-workflows/.github/workflows/build-docker-image-bulk.yml@main
     with:
       base-image: ghcr.io/rspamd/rspamd-docker
-      package-name: neomediatech/rspamd
-      derived-image-prefix: ghcr.io/neomediatech/rspamd
-      force-build: "false"
+      force-build: "${{ github.event.inputs.force-build }}"
       update-image: "true"
       package-to-check: "rspamd"
       skip-type-from-base-image: "true"
