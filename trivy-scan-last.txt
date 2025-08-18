@@ -1,11 +1,11 @@
-ven 15 ago 2025, 14:50:59, UTC --- ghcr.io/neomediatech/rspamd:3.10
+lun 18 ago 2025, 10:03:54, UTC --- ghcr.io/neomediatech/rspamd:3.10
 
 Report Summary
 
 ┌────────────────────────────────────────────────┬────────┬─────────────────┬─────────┬───────────────────┐
 │                     Target                     │  Type  │ Vulnerabilities │ Secrets │ Misconfigurations │
 ├────────────────────────────────────────────────┼────────┼─────────────────┼─────────┼───────────────────┤
-│ ghcr.io/neomediatech/rspamd:3.10 (debian 12.8) │ debian │       11        │    -    │         -         │
+│ ghcr.io/neomediatech/rspamd:3.10 (debian 12.8) │ debian │       12        │    -    │         -         │
 └────────────────────────────────────────────────┴────────┴─────────────────┴─────────┴───────────────────┘
 Legend:
 - '-': Not scanned
@@ -23,7 +23,7 @@ To disable this notice, set the TRIVY_DISABLE_VEX_NOTICE environment variable.
 
 ghcr.io/neomediatech/rspamd:3.10 (debian 12.8)
 ==============================================
-Total: 11 (HIGH: 11, CRITICAL: 0)
+Total: 12 (HIGH: 12, CRITICAL: 0)
 
 ┌─────────────────┬────────────────┬──────────┬────────┬─────────────────────────┬─────────────────────────┬──────────────────────────────────────────────────────────────┐
 │     Library     │ Vulnerability  │ Severity │ Status │    Installed Version    │      Fixed Version      │                            Title                             │
@@ -33,6 +33,9 @@ Total: 11 (HIGH: 11, CRITICAL: 0)
 ├─────────────────┤                │          │        │                         │                         │                                                              │
 │ libglib2.0-data │                │          │        │                         │                         │                                                              │
 │                 │                │          │        │                         │                         │                                                              │
+├─────────────────┼────────────────┤          │        ├─────────────────────────┼─────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ libgnutls30     │ CVE-2025-32990 │          │        │ 3.7.9-2+deb12u3         │ 3.7.9-2+deb12u5         │ gnutls: Vulnerability in GnuTLS certtool template parsing    │
+│                 │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-32990                   │
 ├─────────────────┼────────────────┤          │        ├─────────────────────────┼─────────────────────────┼──────────────────────────────────────────────────────────────┤
 │ libicu72        │ CVE-2025-5222  │          │        │ 72.1-3                  │ 72.1-3+deb12u1          │ icu: Stack buffer overflow in the SRBRoot::addTag function   │
 │                 │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-5222                    │
@@ -64,14 +67,14 @@ Total: 11 (HIGH: 11, CRITICAL: 0)
 │                 │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2024-56406                   │
 └─────────────────┴────────────────┴──────────┴────────┴─────────────────────────┴─────────────────────────┴──────────────────────────────────────────────────────────────┘
 -------------------------------------------------------
-ven 15 ago 2025, 14:51:18, UTC --- ghcr.io/neomediatech/rspamd:3.11
+lun 18 ago 2025, 10:03:29, UTC --- ghcr.io/neomediatech/rspamd:3.11
 
 Report Summary
 
 ┌─────────────────────────────────────────────────┬────────┬─────────────────┬─────────┬───────────────────┐
 │                     Target                      │  Type  │ Vulnerabilities │ Secrets │ Misconfigurations │
 ├─────────────────────────────────────────────────┼────────┼─────────────────┼─────────┼───────────────────┤
-│ ghcr.io/neomediatech/rspamd:3.11 (debian 12.11) │ debian │        7        │    -    │         -         │
+│ ghcr.io/neomediatech/rspamd:3.11 (debian 12.11) │ debian │        8        │    -    │         -         │
 └─────────────────────────────────────────────────┴────────┴─────────────────┴─────────┴───────────────────┘
 Legend:
 - '-': Not scanned
@@ -89,35 +92,38 @@ To disable this notice, set the TRIVY_DISABLE_VEX_NOTICE environment variable.
 
 ghcr.io/neomediatech/rspamd:3.11 (debian 12.11)
 ===============================================
-Total: 7 (HIGH: 7, CRITICAL: 0)
+Total: 8 (HIGH: 8, CRITICAL: 0)
 
-┌──────────┬────────────────┬──────────┬────────┬─────────────────────────┬─────────────────────────┬─────────────────────────────────────────────────────────────┐
-│ Library  │ Vulnerability  │ Severity │ Status │    Installed Version    │      Fixed Version      │                            Title                            │
-├──────────┼────────────────┼──────────┼────────┼─────────────────────────┼─────────────────────────┼─────────────────────────────────────────────────────────────┤
-│ libicu72 │ CVE-2025-5222  │ HIGH     │ fixed  │ 72.1-3                  │ 72.1-3+deb12u1          │ icu: Stack buffer overflow in the SRBRoot::addTag function  │
-│          │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-5222                   │
-├──────────┼────────────────┤          │        ├─────────────────────────┼─────────────────────────┼─────────────────────────────────────────────────────────────┤
-│ libxml2  │ CVE-2024-25062 │          │        │ 2.9.14+dfsg-1.3~deb12u1 │ 2.9.14+dfsg-1.3~deb12u2 │ libxml2: use-after-free in XMLReader                        │
-│          │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2024-25062                  │
-│          ├────────────────┤          │        │                         │                         ├─────────────────────────────────────────────────────────────┤
-│          │ CVE-2024-56171 │          │        │                         │                         │ libxml2: Use-After-Free in libxml2                          │
-│          │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2024-56171                  │
-│          ├────────────────┤          │        │                         │                         ├─────────────────────────────────────────────────────────────┤
-│          │ CVE-2025-24928 │          │        │                         │                         │ libxml2: Stack-based buffer overflow in xmlSnprintfElements │
-│          │                │          │        │                         │                         │ of libxml2                                                  │
-│          │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-24928                  │
-│          ├────────────────┤          │        │                         │                         ├─────────────────────────────────────────────────────────────┤
-│          │ CVE-2025-27113 │          │        │                         │                         │ libxml2: NULL Pointer Dereference in libxml2 xmlPatMatch    │
-│          │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-27113                  │
-│          ├────────────────┤          │        │                         │                         ├─────────────────────────────────────────────────────────────┤
-│          │ CVE-2025-32414 │          │        │                         │                         │ libxml2: Out-of-Bounds Read in libxml2                      │
-│          │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-32414                  │
-│          ├────────────────┤          │        │                         │                         ├─────────────────────────────────────────────────────────────┤
-│          │ CVE-2025-32415 │          │        │                         │                         │ libxml2: Out-of-bounds Read in xmlSchemaIDCFillNodeTables   │
-│          │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-32415                  │
-└──────────┴────────────────┴──────────┴────────┴─────────────────────────┴─────────────────────────┴─────────────────────────────────────────────────────────────┘
+┌─────────────┬────────────────┬──────────┬────────┬─────────────────────────┬─────────────────────────┬─────────────────────────────────────────────────────────────┐
+│   Library   │ Vulnerability  │ Severity │ Status │    Installed Version    │      Fixed Version      │                            Title                            │
+├─────────────┼────────────────┼──────────┼────────┼─────────────────────────┼─────────────────────────┼─────────────────────────────────────────────────────────────┤
+│ libgnutls30 │ CVE-2025-32990 │ HIGH     │ fixed  │ 3.7.9-2+deb12u4         │ 3.7.9-2+deb12u5         │ gnutls: Vulnerability in GnuTLS certtool template parsing   │
+│             │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-32990                  │
+├─────────────┼────────────────┤          │        ├─────────────────────────┼─────────────────────────┼─────────────────────────────────────────────────────────────┤
+│ libicu72    │ CVE-2025-5222  │          │        │ 72.1-3                  │ 72.1-3+deb12u1          │ icu: Stack buffer overflow in the SRBRoot::addTag function  │
+│             │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-5222                   │
+├─────────────┼────────────────┤          │        ├─────────────────────────┼─────────────────────────┼─────────────────────────────────────────────────────────────┤
+│ libxml2     │ CVE-2024-25062 │          │        │ 2.9.14+dfsg-1.3~deb12u1 │ 2.9.14+dfsg-1.3~deb12u2 │ libxml2: use-after-free in XMLReader                        │
+│             │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2024-25062                  │
+│             ├────────────────┤          │        │                         │                         ├─────────────────────────────────────────────────────────────┤
+│             │ CVE-2024-56171 │          │        │                         │                         │ libxml2: Use-After-Free in libxml2                          │
+│             │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2024-56171                  │
+│             ├────────────────┤          │        │                         │                         ├─────────────────────────────────────────────────────────────┤
+│             │ CVE-2025-24928 │          │        │                         │                         │ libxml2: Stack-based buffer overflow in xmlSnprintfElements │
+│             │                │          │        │                         │                         │ of libxml2                                                  │
+│             │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-24928                  │
+│             ├────────────────┤          │        │                         │                         ├─────────────────────────────────────────────────────────────┤
+│             │ CVE-2025-27113 │          │        │                         │                         │ libxml2: NULL Pointer Dereference in libxml2 xmlPatMatch    │
+│             │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-27113                  │
+│             ├────────────────┤          │        │                         │                         ├─────────────────────────────────────────────────────────────┤
+│             │ CVE-2025-32414 │          │        │                         │                         │ libxml2: Out-of-Bounds Read in libxml2                      │
+│             │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-32414                  │
+│             ├────────────────┤          │        │                         │                         ├─────────────────────────────────────────────────────────────┤
+│             │ CVE-2025-32415 │          │        │                         │                         │ libxml2: Out-of-bounds Read in xmlSchemaIDCFillNodeTables   │
+│             │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-32415                  │
+└─────────────┴────────────────┴──────────┴────────┴─────────────────────────┴─────────────────────────┴─────────────────────────────────────────────────────────────┘
 -------------------------------------------------------
-ven 15 ago 2025, 14:50:53, UTC --- ghcr.io/neomediatech/rspamd:3.12
+lun 18 ago 2025, 10:03:33, UTC --- ghcr.io/neomediatech/rspamd:3.12
 
 Report Summary
 
@@ -131,14 +137,14 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-ven 15 ago 2025, 14:51:15, UTC --- ghcr.io/neomediatech/rspamd:3.9
+lun 18 ago 2025, 10:03:48, UTC --- ghcr.io/neomediatech/rspamd:3.9
 
 Report Summary
 
 ┌───────────────────────────────────────────────┬────────┬─────────────────┬─────────┬───────────────────┐
 │                    Target                     │  Type  │ Vulnerabilities │ Secrets │ Misconfigurations │
 ├───────────────────────────────────────────────┼────────┼─────────────────┼─────────┼───────────────────┤
-│ ghcr.io/neomediatech/rspamd:3.9 (debian 12.6) │ debian │       13        │    -    │         -         │
+│ ghcr.io/neomediatech/rspamd:3.9 (debian 12.6) │ debian │       14        │    -    │         -         │
 └───────────────────────────────────────────────┴────────┴─────────────────┴─────────┴───────────────────┘
 Legend:
 - '-': Not scanned
@@ -156,7 +162,7 @@ To disable this notice, set the TRIVY_DISABLE_VEX_NOTICE environment variable.
 
 ghcr.io/neomediatech/rspamd:3.9 (debian 12.6)
 =============================================
-Total: 13 (HIGH: 13, CRITICAL: 0)
+Total: 14 (HIGH: 14, CRITICAL: 0)
 
 ┌─────────────────┬────────────────┬──────────┬────────┬─────────────────────────┬─────────────────────────┬──────────────────────────────────────────────────────────────┐
 │     Library     │ Vulnerability  │ Severity │ Status │    Installed Version    │      Fixed Version      │                            Title                             │
@@ -170,6 +176,9 @@ Total: 13 (HIGH: 13, CRITICAL: 0)
 ├─────────────────┤                │          │        │                         │                         │                                                              │
 │ libglib2.0-data │                │          │        │                         │                         │                                                              │
 │                 │                │          │        │                         │                         │                                                              │
+├─────────────────┼────────────────┤          │        ├─────────────────────────┼─────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ libgnutls30     │ CVE-2025-32990 │          │        │ 3.7.9-2+deb12u3         │ 3.7.9-2+deb12u5         │ gnutls: Vulnerability in GnuTLS certtool template parsing    │
+│                 │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-32990                   │
 ├─────────────────┼────────────────┤          │        ├─────────────────────────┼─────────────────────────┼──────────────────────────────────────────────────────────────┤
 │ libicu72        │ CVE-2025-5222  │          │        │ 72.1-3                  │ 72.1-3+deb12u1          │ icu: Stack buffer overflow in the SRBRoot::addTag function   │
 │                 │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2025-5222                    │
@@ -204,7 +213,7 @@ Total: 13 (HIGH: 13, CRITICAL: 0)
 │                 │                │          │        │                         │                         │ https://avd.aquasec.com/nvd/cve-2024-56406                   │
 └─────────────────┴────────────────┴──────────┴────────┴─────────────────────────┴─────────────────────────┴──────────────────────────────────────────────────────────────┘
 -------------------------------------------------------
-ven 15 ago 2025, 14:50:53, UTC --- ghcr.io/neomediatech/rspamd:latest
+lun 18 ago 2025, 10:03:29, UTC --- ghcr.io/neomediatech/rspamd:latest
 
 Report Summary
 
