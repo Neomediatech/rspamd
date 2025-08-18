@@ -1,16 +1,16 @@
 name: Build and Scan Docker Image
 
 on:
-  push:
-    paths:
-      - 'Dockerfile.*'
-      - 'entrypoint.sh'
-      - 'unbound.conf'
-  pull_request:
-    paths:
-      - 'Dockerfile.latest'
-      - 'entrypoint.sh'
-      - 'unbound.conf'
+  #push:
+  #  paths:
+  #    - 'Dockerfile.*'
+  #    - 'entrypoint.sh'
+  #    - 'unbound.conf'
+  #pull_request:
+  #  paths:
+  #    - 'Dockerfile.latest'
+  #    - 'entrypoint.sh'
+  #    - 'unbound.conf'
   workflow_dispatch: # Permette di avviare il workflow manualmente dalla UI di GitHub
     inputs:
       versions_to_build:
