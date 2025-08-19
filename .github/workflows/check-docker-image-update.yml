@@ -24,7 +24,6 @@ jobs:
   build-image:
     uses: Neomediatech/gh-workflows/.github/workflows/build-docker-image-bulk.yml@main
     with:
-      base-image: ghcr.io/rspamd/rspamd-docker
       force-build: "${{ github.event.inputs.force-build }}"
       update-image: "true"
       package-to-check: "rspamd"
