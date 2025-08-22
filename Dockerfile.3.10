@@ -7,11 +7,10 @@ LABEL org.opencontainers.image.source=https://github.com/Neomediatech/${SERVICE}
 
 USER root
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    ca-certificates wget gosu && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+ARG BIN_SOURCE=https://github.com/Neomediatech/assets/raw/refs/heads/main/bin
+ADD --chmod=777 ${BIN_SOURCE}/gosu \
+                ${BIN_SOURCE}/wget \
+                /usr/local/bin/
 
 SHELL ["/bin/bash", "-c"]
 
