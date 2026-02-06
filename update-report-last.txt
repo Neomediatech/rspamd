@@ -1,5 +1,2 @@
-ven 22 ago 2025, 16:28:13, CEST --- ghcr.io/neomediatech/rspamd:3.10 done (image build needed: true)
-ven 22 ago 2025, 16:28:17, CEST --- ghcr.io/neomediatech/rspamd:3.9 done (image build needed: true)
-ven 22 ago 2025, 16:28:25, CEST --- ghcr.io/neomediatech/rspamd:latest done (image build needed: true)
-ven 22 ago 2025, 16:28:26, CEST --- ghcr.io/neomediatech/rspamd:3.11 done (image build needed: true)
-ven 22 ago 2025, 16:28:26, CEST --- ghcr.io/neomediatech/rspamd:3.12 done (image build needed: true)
+ven 6 feb 2026, 12:40:21, CET --- ghcr.io/neomediatech/rspamd:latest done (image build needed: true)
+ven 6 feb 2026, 12:40:34, CET --- ghcr.io/neomediatech/rspamd:3.14 done (image build needed: true)
