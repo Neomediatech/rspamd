@@ -1,2 +1,2 @@
-lun 29 giu 2026, 20:16:06, CEST --- ghcr.io/neomediatech/rspamd:latest done (image build needed: true)
-lun 29 giu 2026, 20:16:09, CEST --- ghcr.io/neomediatech/rspamd:4.1 done (image build needed: true)
+gio 3 set 2026, 16:25:34, CEST --- ghcr.io/neomediatech/rspamd:4.1 done (image build needed: true)
+gio 3 set 2026, 16:25:49, CEST --- ghcr.io/neomediatech/rspamd:latest done (image build needed: true)
